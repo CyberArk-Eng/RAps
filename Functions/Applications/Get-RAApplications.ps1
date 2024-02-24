@@ -1,4 +1,4 @@
-function Get-RASites {
+function Get-RAApplications {
     [CmdletBinding()]
     param (
         [Parameter(
@@ -9,14 +9,21 @@ function Get-RASites {
         [System.Security.SecureString]$Authn,
 
         [Parameter(
+            Mandatory,
+            HelpMessage='Enter the Site Id'
+        )]
+        [string]$SiteId,
+
+        [Parameter(
             HelpMessage='The maximum number of entries to return'
         )]
         [int]$Limit=100,
 
+
         [Parameter(
             HelpMessage='The number of entries to skip'
         )]
-        [int]$Offset
+        [int]$Offset=0
     )
 
     begin {
@@ -24,7 +31,7 @@ function Get-RASites {
     }
 
     process {
-        $url = "https://api.alero.io/v2-edge/sites?limit=$Limit&offset=$Offset"
+        $url = "https://api.alero.io/v2-edge/sites/$SiteId/applications?limit=$Limit&offset=$Offset"
         $result = Invoke-RestMethod -Method Get -Uri $url -Authentication Bearer -Token $Authn
     }
 
