@@ -14,7 +14,7 @@ function New-RAToken {
             Mandatory,
             HelpMessage='Select the datacenter of your Alero instance.'
         )]
-        [ValidateSet('alero.io', 'alero.eu', 'ca.alero.io')]
+        [ValidateSet('alero.io', 'alero.eu', 'ca.alero.io','au.alero.io','uk.alero.io','in.alero.io','sg.alero.io','ae.alero.io')]
         [string]$Datacenter,
 
         [Parameter(
