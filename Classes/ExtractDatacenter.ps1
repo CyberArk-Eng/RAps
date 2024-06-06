@@ -27,7 +27,7 @@ function Parse-JWTtoken {
     $tokenPayload = $token.Split(".")[1].Replace('-', '+').Replace('_', '/')
     #Fix padding as needed, keep adding "=" until string length modulus 4 reaches 0
     while ($tokenPayload.Length % 4) { Write-Verbose "Invalid length for a Base-64 char array or string, adding ="; $tokenPayload += "=" }
-    Write-Verbose "Base64 encoded (padded) payoad:"
+    Write-Verbose "Base64 encoded (padded) payload:"
     Write-Verbose $tokenPayload
     #Convert to Byte array
     $tokenByteArray = [System.Convert]::FromBase64String($tokenPayload)
@@ -107,7 +107,7 @@ function Extract-DomainFromToken {
 
 $plainAuthn = ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($Authn)))
 
-$decodedDomain = Parse-JWTtoken $plainAuthn | select -ExpandProperty iss
+$decodedDomain = Parse-JWTtoken $plainAuthn | Select-Object -ExpandProperty iss
 
 $plainAuthn = $null
 
