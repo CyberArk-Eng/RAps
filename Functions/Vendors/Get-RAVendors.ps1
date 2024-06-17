@@ -4,7 +4,7 @@ function Get-RAVendors {
 
         [Parameter(
             ParameterSetName = 'ByString',
-            HelpMessage = 'The ID of the Alero user who invited this vendor'
+            HelpMessage = 'The ID of the Remote Access user who invited this vendor'
         )]
         [string]$InvitedBy,
 

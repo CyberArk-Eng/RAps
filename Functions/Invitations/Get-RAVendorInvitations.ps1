@@ -4,7 +4,7 @@ function Get-RAVendorInvitations {
 
         [Parameter(
             ParameterSetName = 'BySearch',
-            HelpMessage = 'The ID of the Alero user who created the invitation'
+            HelpMessage = 'The ID of the Remote Access user who created the invitation'
         )]
         [string]$CreatedBy,
 

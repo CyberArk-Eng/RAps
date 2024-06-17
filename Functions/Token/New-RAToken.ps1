@@ -28,7 +28,7 @@ function New-RAToken {
     }
 
     process {
-        Write-Verbose -Message 'Retrieving content from the Alero JSON file.'
+        Write-Verbose -Message 'Retrieving content from the Remote Access JSON file.'
         $authenticationFile = Get-Content -Path $Path | ConvertFrom-Json
         Write-Verbose -Message 'Creating the JWT Header.'
         $jwtHeader = [JwtHeader]::new().Create()

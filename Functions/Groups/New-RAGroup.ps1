@@ -7,12 +7,12 @@ function New-RAGroup {
         [Parameter(
             Mandatory,
             ValueFromPipeline,
-            HelpMessage = 'The name of the AleroLDAP group that will be added as a member to CyberArk Safes.'
+            HelpMessage = 'The name of the VendorLDAP group that will be added as a member to CyberArk Safes.'
         )]
         [string]$Name,
 
         [Parameter(
-            HelpMessage = 'The description of the AleroLDAP group.'
+            HelpMessage = 'The description of the VendorLDAP group.'
         )]
         [string]$Description
     )
@@ -33,7 +33,7 @@ function New-RAGroup {
             'Token'          = $Script:token
             'ContentType'    = $Script:ContentType
         }
-        if ($PSCmdlet.ShouldProcess($Name, 'Create the Alero group.')) {
+        if ($PSCmdlet.ShouldProcess($Name, 'Create the Remote Access group.')) {
             [void]$result.Add((Invoke-RestMethod @restCall))
         }
     }

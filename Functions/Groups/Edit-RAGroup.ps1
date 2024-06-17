@@ -8,13 +8,13 @@ function Edit-RAGroup {
 
         [Parameter(
             Mandatory,
-            HelpMessage = 'The unique ID of the AleroLDAP group.'
+            HelpMessage = 'The unique ID of the VendorLDAP group.'
         )]
         [string]$GroupId,
 
         [Parameter(
             Mandatory,
-            HelpMessage = 'The description of the AleroLDAP group'
+            HelpMessage = 'The description of the VendorLDAP group'
         )]
         [string]$Description
     )

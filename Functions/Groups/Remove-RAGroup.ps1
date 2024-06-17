@@ -9,7 +9,7 @@ function Remove-RAGroup {
         [Parameter(
             Mandatory,
             ValueFromPipeline,
-            HelpMessage = 'The unique ID of the AleroLDAP group.'
+            HelpMessage = 'The unique ID of the VendorLDAP group.'
         )]
         [string]$GroupId
     )
@@ -25,7 +25,7 @@ function Remove-RAGroup {
             'Authentication' = $Script:Authentication
             'Token'          = $Script:token
         }
-        if ($PSCmdlet.ShouldProcess("GroupId: $GroupId", 'Remove the Alero group')) {
+        if ($PSCmdlet.ShouldProcess("GroupId: $GroupId", 'Remove the Remote Access group')) {
             $result = Invoke-RestMethod @restBody
         }
     }

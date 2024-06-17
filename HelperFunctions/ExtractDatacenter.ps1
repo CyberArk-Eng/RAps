@@ -113,9 +113,9 @@
     }
 
     Process {
-        $plainAuthn = ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($access_token)))
+        #$plainAuthn = ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($access_token)))
 
-        $decodedDomain = Parse-JWTtoken -token $plainAuthn | Select-Object -ExpandProperty iss
+        $decodedDomain = Parse-JWTtoken -token $access_token | Select-Object -ExpandProperty iss
 
         $plainAuthn = $null
 

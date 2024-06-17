@@ -13,7 +13,7 @@ function New-RAInvitation {
         [HashTable]$InvitationRequest,
 
         [Parameter(
-            HelpMessage = 'Select this flag if you invite an Alero user'
+            HelpMessage = 'Select this flag if you invite a Remote Access user'
         )]
         [switch]$UserInvitation
     )
@@ -36,7 +36,7 @@ function New-RAInvitation {
             'Token'          = $Script:token
             'ContentType'    = $Script:ContentType
         }
-        if ($PSCmdlet.ShouldProcess('Alero Invitation', 'Creating a new invitation')) {
+        if ($PSCmdlet.ShouldProcess('Remote Access Invitation', 'Creating a new invitation')) {
             $result = Invoke-RestMethod @restCall
         }
     }

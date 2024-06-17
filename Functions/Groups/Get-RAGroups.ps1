@@ -31,7 +31,7 @@ function Get-RAGroups {
         [Parameter(
             Mandatory,
             ParameterSetName = 'ByGroupId',
-            HelpMessage = 'The unique ID of the AleroLDAP group'
+            HelpMessage = 'The unique ID of the VendorLDAP group'
         )]
         [string]$GroupId
     )
