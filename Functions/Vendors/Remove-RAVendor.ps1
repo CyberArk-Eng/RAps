@@ -1,19 +1,13 @@
 function Remove-RAVendor {
     [CmdletBinding(
         SupportsShouldProcess,
-        ConfirmImpact='Medium'
+        ConfirmImpact = 'Medium'
     )]
     [OutputType([string])]
     param (
-        [Parameter(
-            Mandatory,
-            ValueFromPipelineByPropertyName,
-            HelpMessage='Token to authenticate to Alero.'
-        )]
-        [System.Security.SecureString]$Authn,
 
         [Parameter(
-            HelpMessage='The unique ID of the vendor'
+            HelpMessage = 'The unique ID of the vendor'
         )]
         [string]$VendorId
     )
@@ -23,9 +17,9 @@ function Remove-RAVendor {
     }
 
     process {
-        $url = "https://api.alero.io/v2-edge/vendors/$VendorId"
-        if ($PSCmdlet.ShouldProcess("VendorId: $VendorId", "Delete the Vendor")) {
-            $result = Invoke-RestMethod -Method Delete -Uri $url -Authentication Bearer -Token $Authn
+        $url = "https://$($Script:ApiURL)/v2-edge/vendors/$VendorId"
+        if ($PSCmdlet.ShouldProcess("VendorId: $VendorId", 'Delete the Vendor')) {
+            $result = Invoke-RestMethod -Method Delete -Uri $url -Authentication $Script:Authentication -Token $Script:token
         }
     }
 

@@ -1,20 +1,14 @@
 function Remove-RAVendorInvitation {
     [CmdletBinding(
         SupportsShouldProcess,
-        ConfirmImpact='Medium'
+        ConfirmImpact = 'Medium'
     )]
     [OutputType([string])]
     param (
-        [Parameter(
-            Mandatory,
-            ValueFromPipelineByPropertyName,
-            HelpMessage='Token to authenticate to Alero.'
-        )]
-        [System.Security.SecureString]$Authn,
 
         [Parameter(
             Mandatory,
-            HelpMessage='The invitation to be removed'
+            HelpMessage = 'The invitation to be removed'
         )]
         [string]$InvitationId
     )
@@ -24,9 +18,9 @@ function Remove-RAVendorInvitation {
     }
 
     process {
-        $url = "https://api.alero.io/v2-edge/invitations/vendor-invitations/$InvitationId"
-        if ($PSCmdlet.ShouldProcess("VendorId: $VendorId", "Removing vendor")) {
-            $result = Invoke-RestMethod -Method Delete -Uri $url -Authentication Bearer -Token $Authn
+        $url = "https://$($Script:ApiURL)/v2-edge/invitations/vendor-invitations/$InvitationId"
+        if ($PSCmdlet.ShouldProcess("VendorId: $VendorId", 'Removing vendor')) {
+            $result = Invoke-RestMethod -Method Delete -Uri $url -Authentication $Script:Authentication -Token $Script:token
         }
     }
 

@@ -1,20 +1,14 @@
 function Get-RASites {
     [CmdletBinding()]
     param (
-        [Parameter(
-            Mandatory,
-            ValueFromPipelineByPropertyName,
-            HelpMessage='Token to authenticate to Alero.'
-        )]
-        [System.Security.SecureString]$Authn,
 
         [Parameter(
-            HelpMessage='The maximum number of entries to return'
+            HelpMessage = 'The maximum number of entries to return'
         )]
-        [int]$Limit=100,
+        [int]$Limit = 100,
 
         [Parameter(
-            HelpMessage='The number of entries to skip'
+            HelpMessage = 'The number of entries to skip'
         )]
         [int]$Offset
     )
@@ -24,8 +18,8 @@ function Get-RASites {
     }
 
     process {
-        $url = "https://api.alero.io/v2-edge/sites?limit=$Limit&offset=$Offset"
-        $result = Invoke-RestMethod -Method Get -Uri $url -Authentication Bearer -Token $Authn
+        $url = "https://$($Script:ApiURL)/v2-edge/sites?limit=$Limit&offset=$Offset"
+        $result = Invoke-RestMethod -Method Get -Uri $url -Authentication $Script:Authentication -Token $Script:token
     }
 
     end {

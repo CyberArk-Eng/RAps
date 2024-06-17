@@ -1,67 +1,73 @@
 function New-RAToken {
     [CmdletBinding(
         SupportsShouldProcess,
-        ConfirmImpact='Low'
+        ConfirmImpact = 'Low'
     )]
     param (
         [Parameter(
             Mandatory,
-            HelpMessage='Enter the path to your service account JSON file.'
+            HelpMessage = 'Enter the path to your service account JSON file.'
         )]
         [System.IO.FileInfo]$Path,
 
         [Parameter(
             Mandatory,
-            HelpMessage='Select the datacenter of your Alero instance.'
+            HelpMessage = 'Select the datacenter of your Alero instance.'
         )]
-        [ValidateSet('alero.io', 'alero.eu', 'ca.alero.io','au.alero.io','uk.alero.io','in.alero.io','sg.alero.io','ae.alero.io')]
+        [ValidateSet('alero.io', 'alero.eu', 'ca.alero.io', 'au.alero.io', 'uk.alero.io', 'in.alero.io', 'sg.alero.io', 'ae.alero.io')]
         [string]$Datacenter,
 
         [Parameter(
             Mandatory,
-            HelpMessage='Enter the ID your company in Alero.'
+            HelpMessage = 'Enter the ID your company in Alero.'
         )]
-        [string]$TenantID,
-
-        [Parameter(
-            HelpMessage='Returns the token as a secure string.'
-        )]
-        [switch]$AsSecureString
+        [string]$TenantID
     )
 
     begin {
     }
 
     process {
-        Write-Verbose -Message "Retrieving content from the Alero JSON file."
+        Write-Verbose -Message 'Retrieving content from the Alero JSON file.'
         $authenticationFile = Get-Content -Path $Path | ConvertFrom-Json
-        Write-Verbose -Message "Creating the JWT Header."
+        Write-Verbose -Message 'Creating the JWT Header.'
         $jwtHeader = [JwtHeader]::new().Create()
-        Write-Verbose -Message "Creating the JWT claim set."
+        Write-Verbose -Message 'Creating the JWT claim set.'
         $jwtClaimSet = [JwtClaimSet]::new($authenticationFile.serviceAccountId, $TenantID, $Datacenter).Create()
-        Write-Verbose -Message "Creating the JWT signature."
+        Write-Verbose -Message 'Creating the JWT signature.'
         $jwtSignature = [JwtSignature]::new($authenticationFile.privateKey, "$jwtHeader.$jwtClaimSet").Create()
 
-        Write-Verbose -Message "Sending the API call."
-        $url="https://auth.$Datacenter/auth/realms/serviceaccounts/protocol/openid-connect/token"
+        Write-Verbose -Message 'Sending the API call.'
+        $url = "https://auth.$Datacenter/auth/realms/serviceaccounts/protocol/openid-connect/token"
         $body = @{
-            grant_type='client_credentials'
-            client_assertion_type='urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
-            client_assertion=$jwtSignature
+            grant_type            = 'client_credentials'
+            client_assertion_type = 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
+            client_assertion      = $jwtSignature
         }
-        if ($PSCmdlet.ShouldProcess($Datacenter, "Creating JWT token.")) {
-            $response = Invoke-RestMethod -Method Post -Uri $url -Body $body -ContentType "application/x-www-form-urlencoded"
+        if ($PSCmdlet.ShouldProcess($Datacenter, 'Creating JWT token.')) {
+
+            $response = Invoke-RestMethod -Method Post -Uri $url -Body $body -ContentType 'application/x-www-form-urlencoded' -SessionVariable RAPsSession
+
+            if ($null -ne $response) {
+                Write-Verbose -Message 'Returning the access token.'
+                $Script:WebSession = $RAPsSession
+                $Script:ApiURL = $response.access_token | Get-ApiUrl
+                $Script:token = (ConvertTo-SecureString -String $response.access_token -AsPlainText -Force)
+                $Script:Authentication = 'Bearer'
+                $Script:ContentType = 'application/json'
+
+                #if ($AsSecureString) {
+                #Write-Verbose -Message 'Encrypts the access token in a secure string class.'
+                #Write-Output -InputObject (ConvertTo-SecureString -String $response.access_token -AsPlainText -Force)
+                #} else {
+                Write-Output -InputObject $response.access_token
+                #}
+            }
+
         }
     }
 
     end {
-        Write-Verbose -Message "Returning the access token."
-        if ($AsSecureString) {
-            Write-Verbose -Message "Encrypts the access token in a secure string class."
-            Write-Output -InputObject (ConvertTo-SecureString -String $response.access_token -AsPlainText -Force)
-        }
-        else {
-            Write-Output -InputObject $response.access_token
-        }
+
     }
 }

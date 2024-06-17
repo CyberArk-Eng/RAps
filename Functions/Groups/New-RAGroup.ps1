@@ -1,24 +1,18 @@
 function New-RAGroup {
     [CmdletBinding(
         SupportsShouldProcess,
-        ConfirmImpact='Medium'
+        ConfirmImpact = 'Medium'
     )]
     param (
         [Parameter(
             Mandatory,
-            HelpMessage='Token to authenticate to Alero.'
-        )]
-        [System.Security.SecureString]$Authn,
-
-        [Parameter(
-            Mandatory,
             ValueFromPipeline,
-            HelpMessage='The name of the AleroLDAP group that will be added as a member to CyberArk Safes.'
+            HelpMessage = 'The name of the AleroLDAP group that will be added as a member to CyberArk Safes.'
         )]
         [string]$Name,
 
         [Parameter(
-            HelpMessage='The description of the AleroLDAP group.'
+            HelpMessage = 'The description of the AleroLDAP group.'
         )]
         [string]$Description
     )
@@ -29,17 +23,17 @@ function New-RAGroup {
 
     process {
         $restCall = @{
-            'Method' = 'POST'
-            'Uri' = 'https://api.alero.io/v2-edge/groups'
-            'Body' = ( @{
-                'name' = $Name
-                'description' = $Description
-            } | ConvertTo-Json )
-            'Authentication' = 'Bearer'
-            'Token' = $Authn
-            'ContentType' = 'application/json'
+            'Method'         = 'POST'
+            'Uri'            = 'https://$($Script:ApiURL)/v2-edge/groups'
+            'Body'           = ( @{
+                    'name'        = $Name
+                    'description' = $Description
+                } | ConvertTo-Json )
+            'Authentication' = $Script:Authentication
+            'Token'          = $Script:token
+            'ContentType'    = $Script:ContentType
         }
-        if ($PSCmdlet.ShouldProcess($Name, "Create the Alero group.")) {
+        if ($PSCmdlet.ShouldProcess($Name, 'Create the Alero group.')) {
             [void]$result.Add((Invoke-RestMethod @restCall))
         }
     }

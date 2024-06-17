@@ -1,36 +1,30 @@
 function Get-RAActivities {
     [CmdletBinding()]
     param (
-        [Parameter(
-            Mandatory,
-            ValueFromPipelineByPropertyName,
-            HelpMessage='Token to authenticate to Alero.'
-        )]
-        [System.Security.SecureString]$Authn,
 
         [Parameter(
             Mandatory,
-            HelpMessage='List of Activity Types to retrieve'
+            HelpMessage = 'List of Activity Types to retrieve'
         )]
         [string[]]$ActivityType,
 
         [Parameter(
-            HelpMessage='Start of the period'
+            HelpMessage = 'Start of the period'
         )]
         [System.DateTimeOffset]$FromTime = (Get-Date).AddDays(-1),
 
         [Parameter(
-            HelpMessage='End of the period'
+            HelpMessage = 'End of the period'
         )]
         [System.DateTimeOffset]$ToTime = (Get-Date),
 
         [Parameter(
-            HelpMessage='The maximum number of entries to return'
+            HelpMessage = 'The maximum number of entries to return'
         )]
         [int]$Limit = 100,
 
         [Parameter(
-            HelpMessage='The number of entries to skip'
+            HelpMessage = 'The number of entries to skip'
         )]
         [int]$Offset = 0
     )
@@ -42,13 +36,13 @@ function Get-RAActivities {
     process {
         $activity = $ActivityType | ForEach-Object { "activityTypes=$_" }
         $url = [string]::Concat(
-            "https://api.alero.io/v2-edge/activities?$($activity -join '&')",
+            "https://$($Script:ApiURL)/v2-edge/activities?$($activity -join '&')",
             "&fromTime=$($FromTime.ToUnixTimeMilliseconds())",
             "&limit=$Limit",
             "&offset=$Offset",
             "&toTime=$($ToTime.ToUnixTimeMilliseconds())"
         )
-        $result = Invoke-RestMethod -Method Get -Uri $url -Authentication Bearer -Token $Authn
+        $result = Invoke-RestMethod -Method Get -Uri $url -Authentication $Script:Authentication -Token $Script:token
     }
 
     end {

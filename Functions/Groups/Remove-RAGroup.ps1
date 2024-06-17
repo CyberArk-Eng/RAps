@@ -1,20 +1,15 @@
 function Remove-RAGroup {
     [CmdletBinding(
         SupportsShouldProcess,
-        ConfirmImpact='Medium'
+        ConfirmImpact = 'Medium'
     )]
     [OutputType([string])]
     param (
-        [Parameter(
-            Mandatory,
-            HelpMessage='Token to authenticate to Alero.'
-        )]
-        [System.Security.SecureString]$Authn,
 
         [Parameter(
             Mandatory,
             ValueFromPipeline,
-            HelpMessage='The unique ID of the AleroLDAP group.'
+            HelpMessage = 'The unique ID of the AleroLDAP group.'
         )]
         [string]$GroupId
     )
@@ -25,12 +20,12 @@ function Remove-RAGroup {
 
     process {
         $restBody = @{
-            'Method' = 'Delete'
-            'Uri' = "https://api.alero.io/v2-edge/groups/$GroupId"
-            'Authentication' = 'Bearer'
-            'Token' = $Authn
+            'Method'         = 'Delete'
+            'Uri'            = "https://$($Script:ApiURL)/v2-edge/groups/$GroupId"
+            'Authentication' = $Script:Authentication
+            'Token'          = $Script:token
         }
-        if ($PSCmdlet.ShouldProcess("GroupId: $GroupId", "Remove the Alero group")) {
+        if ($PSCmdlet.ShouldProcess("GroupId: $GroupId", 'Remove the Alero group')) {
             $result = Invoke-RestMethod @restBody
         }
     }

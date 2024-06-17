@@ -1,25 +1,19 @@
 function New-RAInvitation {
     [CmdletBinding(
         SupportsShouldProcess,
-        ConfirmImpact='Medium'
+        ConfirmImpact = 'Medium'
     )]
     [OutputType([string])]
     param (
-        [Parameter(
-            Mandatory,
-            ValueFromPipelineByPropertyName,
-            HelpMessage='Token to authenticate to Alero.'
-        )]
-        [System.Security.SecureString]$Authn,
 
         [Parameter(
             Mandatory,
-            HelpMessage='Enter all properties of the Invitation Request'
+            HelpMessage = 'Enter all properties of the Invitation Request'
         )]
         [HashTable]$InvitationRequest,
 
         [Parameter(
-            HelpMessage='Select this flag if you invite an Alero user'
+            HelpMessage = 'Select this flag if you invite an Alero user'
         )]
         [switch]$UserInvitation
     )
@@ -30,20 +24,19 @@ function New-RAInvitation {
 
     process {
         if ($UserInvitation) {
-            $url = "https://api.alero.io/v2-edge/invitations/user-invitations"
-        }
-        else {
-            $url = "https://api.alero.io/v2-edge/invitations/vendor-invitations"
+            $url = "https://$($Script:ApiURL)/v2-edge/invitations/user-invitations"
+        } else {
+            $url = "https://$($Script:ApiURL)/v2-edge/invitations/vendor-invitations"
         }
         $restCall = @{
-            'Method' = 'Post'
-            'Uri' = $url
-            'Body' = ($InvitationRequest | ConvertTo-Json -Depth 3)
-            'Authentication' = 'Bearer'
-            'Token' = $Authn
-            'ContentType' = 'application/json'
+            'Method'         = 'Post'
+            'Uri'            = $url
+            'Body'           = ($InvitationRequest | ConvertTo-Json -Depth 3)
+            'Authentication' = $Script:Authentication
+            'Token'          = $Script:token
+            'ContentType'    = $Script:ContentType
         }
-        if ($PSCmdlet.ShouldProcess("Alero Invitation", "Creating a new invitation")) {
+        if ($PSCmdlet.ShouldProcess('Alero Invitation', 'Creating a new invitation')) {
             $result = Invoke-RestMethod @restCall
         }
     }

@@ -1,26 +1,20 @@
 function Approve-RASelfServiceRequest {
     [CmdletBinding(
         SupportsShouldProcess,
-        ConfirmImpact='Low'
+        ConfirmImpact = 'Low'
     )]
     [OutputType([string])]
     param (
-        [Parameter(
-            Mandatory,
-            ValueFromPipelineByPropertyName,
-            HelpMessage='Token to authenticate to Alero.'
-        )]
-        [System.Security.SecureString]$Authn,
 
         [Parameter(
             Mandatory,
-            HelpMessage='Unique identifier of the request.'
+            HelpMessage = 'Unique identifier of the request.'
         )]
         [string]$RequestId,
 
         [Parameter(
             Mandatory,
-            HelpMessage='Self Service Invitation body. Fill out all properties'
+            HelpMessage = 'Self Service Invitation body. Fill out all properties'
         )]
         [HashTable]$RequestBody
     )
@@ -31,14 +25,14 @@ function Approve-RASelfServiceRequest {
 
     process {
         $restCall = @{
-            'Method' = 'Post'
-            'Uri' = "https://api.alero.io/v2-edge/selfServiceRequests/$RequestId"
-            'Body' = ($RequestBody | ConvertTo-Json -Depth 3)
-            'ContentType' = 'application/json'
-            'Authentication' = 'Bearer'
-            'Token' = $Authn
+            'Method'         = 'Post'
+            'Uri'            = "https://$($Script:ApiURL)/v2-edge/selfServiceRequests/$RequestId"
+            'Body'           = ($RequestBody | ConvertTo-Json -Depth 3)
+            'ContentType'    = $Script:ContentType
+            'Authentication' = $Script:Authentication
+            'Token'          = $Script:token
         }
-        if ($PSCmdlet.ShouldProcess("RequestId: $RequestId", "Approve the pending request")) {
+        if ($PSCmdlet.ShouldProcess("RequestId: $RequestId", 'Approve the pending request')) {
             $result = Invoke-RestMethod @restCall
         }
     }
