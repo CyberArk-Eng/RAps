@@ -24,7 +24,7 @@ function New-RAGroup {
     process {
         $restCall = @{
             'Method'         = 'POST'
-            'Uri'            = 'https://$($Script:ApiURL)/v2-edge/groups'
+            'Uri'            = "https://$($Script:ApiURL)/v2-edge/groups"
             'Body'           = ( @{
                     'name'        = $Name
                     'description' = $Description
