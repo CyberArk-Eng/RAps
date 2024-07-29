@@ -1,6 +1,6 @@
-# .ExternalHelp AleroPS-help.xml
+# .ExternalHelp RAps-help.xml
 
-$files = Get-ChildItem -Path $PSScriptRoot -Filter *.ps1 -Recurse -File -Force | Where-Object {$PSItem.Fullname -notlike "*Tests*"}
+$files = Get-ChildItem -Path $PSScriptRoot\ -Recurse -Include '*.ps1' -Exclude '*.Tests.ps1'
 
 foreach ($file in $files) {
     . $file.FullName
