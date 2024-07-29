@@ -49,31 +49,38 @@ function Get-RAVendors {
     )
 
     begin {
-
+        $url = "https://$($Script:ApiURL)/v2-edge/vendors"
     }
 
     process {
         switch ($PSCmdlet.ParameterSetName) {
             'ByString' {
-                $url = "https://$($Script:ApiURL)/v2-edge/vendors?`
-                &searchIn=$SearchIn`
-                &offset=$Offset`
-                &limit=$Limit"
-                #&invitedBy=$InvitedBy`
-                #&searchString=$SearchString"           
-                                
-                
+
+                $query = [System.Collections.ArrayList]@()
+                Switch ($PSBoundParameters.Keys) {
+                    'searchIn' { $query.Add("searchIn=$SearchIn") | Out-Null }
+                    'offset' { $query.Add("offset=$Offset") | Out-Null }
+                    'limit' { $query.Add("limit=$Limit") | Out-Null }
+                    'invitedBy' { $query.Add("invitedBy=$InvitedBy") | Out-Null }
+                    'searchString' { $query.Add("searchString=$SearchString") | Out-Null }
+                }
+
+                $querystring = $query -join '&'
+                if ($null -ne $querystring) {
+                    $url = -join ($url, '?', $querystring)
+                }
+                Write-Verbose $url
             }
             'ByVendorId' {
-                $url = "https://$($Script:ApiURL)/v2-edge/vendors/$VendorId"
+                $url = "$url/$VendorId"
             }
             'ByPhoneNumber' {
-                $url = "https://$($Script:ApiURL)/v2-edge/vendors/phone/$PhoneNumber"
+                $url = "$url/$PhoneNumber"
             }
             Default {}
         }
         $result = Invoke-RestMethod -Method Get -Uri $url -Authentication $Script:Authentication -Token $Script:token
-        
+
     }
 
     end {
