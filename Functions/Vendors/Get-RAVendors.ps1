@@ -12,13 +12,13 @@ function Get-RAVendors {
             ParameterSetName = 'ByString',
             HelpMessage = 'The maximum number of entries to return'
         )]
-        [int]$Limit = 0,
+        [int]$Limit = 100,
 
         [Parameter(
             ParameterSetName = 'ByString',
             HelpMessage = 'The number of entries to skip'
         )]
-        [int]$Offset = 100,
+        [int]$Offset = 0,
 
         [Parameter(
             ParameterSetName = 'ByString',
@@ -56,11 +56,12 @@ function Get-RAVendors {
         switch ($PSCmdlet.ParameterSetName) {
             'ByString' {
                 $url = "https://$($Script:ApiURL)/v2-edge/vendors?`
-                invitedBy=$InvitedBy`
-                &limit=$Limit`
-                &offset=$Offset`
                 &searchIn=$SearchIn`
-                &searchString=$SearchString"
+                &offset=$Offset`
+                &limit=$Limit"
+                #&invitedBy=$InvitedBy`
+                #&searchString=$SearchString"           
+                                
                 
             }
             'ByVendorId' {
