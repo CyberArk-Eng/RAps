@@ -29,8 +29,7 @@ function New-RAGroup {
                     'name'        = $Name
                     'description' = $Description
                 } | ConvertTo-Json )
-            'Authentication' = $Script:Authentication
-            'Token'          = $Script:token
+            'WebSession' =  $Script:WebSession
             'ContentType'    = $Script:ContentType
         }
         if ($PSCmdlet.ShouldProcess($Name, 'Create the Remote Access group.')) {

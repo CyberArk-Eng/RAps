@@ -25,12 +25,11 @@ function Edit-RAGroup {
 
     process {
         $restBody = @{
-            'Uri'            = "https://$($Script:ApiURL)/v2-edge/groups/$GroupId"
-            'Body'           = $Description
-            'ContentType'    = $Script:ContentType
-            'Method'         = 'Put'
-            'Authentication' = $Script:Authentication
-            'Token'          = $Script:token
+            'Uri'         = "https://$($Script:ApiURL)/v2-edge/groups/$GroupId"
+            'Body'        = $Description
+            'ContentType' = $Script:ContentType
+            'Method'      = 'Put'
+            'WebSession'  = $Script:WebSession
         }
         if ($PSCmdlet.ShouldProcess("GroupId: $GroupId", 'Change description')) {
             $result = Invoke-RestMethod @restBody

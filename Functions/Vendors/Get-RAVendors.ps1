@@ -79,7 +79,7 @@ function Get-RAVendors {
             }
             Default {}
         }
-        $result = Invoke-RestMethod -Method Get -Uri $url -Authentication $Script:Authentication -Token $Script:token
+        $result = Invoke-RestMethod -Method Get -Uri $url -WebSession $Script:WebSession
 
     }
 

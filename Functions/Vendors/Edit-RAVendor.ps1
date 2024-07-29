@@ -51,8 +51,7 @@ function Edit-RAVendor {
             'Method'         = 'Put'
             'Uri'            = $url
             'ContentType'    = $Script:ContentType
-            'Authentication' = $Script:Authentication
-            'Token'          = $Script:token
+            'WebSession' =  $Script:WebSession
             'Body'           = $body
         }
         if ($PSCmdlet.ShouldProcess("VendorId: $VendorId", 'Updating the vendor')) {

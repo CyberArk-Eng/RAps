@@ -20,7 +20,7 @@ function Remove-RAUser {
     process {
         $url = "https://$($Script:ApiURL)/v2-edge/users/$UserId"
         if ($PSCmdlet.ShouldProcess("UserId: $UserId", 'Remove Remote Access user')) {
-            $result = Invoke-RestMethod -Method Delete -Uri $url -Authentication $Script:Authentication -Token $Script:token
+            $result = Invoke-RestMethod -Method Delete -Uri $url -WebSession $Script:WebSession
         }
     }
 

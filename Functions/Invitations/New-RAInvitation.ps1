@@ -32,8 +32,7 @@ function New-RAInvitation {
             'Method'         = 'Post'
             'Uri'            = $url
             'Body'           = ($InvitationRequest | ConvertTo-Json -Depth 3)
-            'Authentication' = $Script:Authentication
-            'Token'          = $Script:token
+            'WebSession' =  $Script:WebSession
             'ContentType'    = $Script:ContentType
         }
         if ($PSCmdlet.ShouldProcess('Remote Access Invitation', 'Creating a new invitation')) {

@@ -29,8 +29,7 @@ function Approve-RASelfServiceRequest {
             'Uri'            = "https://$($Script:ApiURL)/v2-edge/selfServiceRequests/$RequestId"
             'Body'           = ($RequestBody | ConvertTo-Json -Depth 3)
             'ContentType'    = $Script:ContentType
-            'Authentication' = $Script:Authentication
-            'Token'          = $Script:token
+            'WebSession' =  $Script:WebSession
         }
         if ($PSCmdlet.ShouldProcess("RequestId: $RequestId", 'Approve the pending request')) {
             $result = Invoke-RestMethod @restCall

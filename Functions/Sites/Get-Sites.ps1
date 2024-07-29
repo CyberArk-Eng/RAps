@@ -19,7 +19,7 @@ function Get-RASites {
 
     process {
         $url = "https://$($Script:ApiURL)/v2-edge/sites?limit=$Limit&offset=$Offset"
-        $result = Invoke-RestMethod -Method Get -Uri $url -Authentication $Script:Authentication -Token $Script:token
+        $result = Invoke-RestMethod -Method Get -Uri $url -WebSession $Script:WebSession
     }
 
     end {

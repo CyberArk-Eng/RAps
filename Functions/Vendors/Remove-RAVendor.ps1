@@ -19,7 +19,7 @@ function Remove-RAVendor {
     process {
         $url = "https://$($Script:ApiURL)/v2-edge/vendors/$VendorId"
         if ($PSCmdlet.ShouldProcess("VendorId: $VendorId", 'Delete the Vendor')) {
-            $result = Invoke-RestMethod -Method Delete -Uri $url -Authentication $Script:Authentication -Token $Script:token
+            $result = Invoke-RestMethod -Method Delete -Uri $url -WebSession $Script:WebSession
         }
     }
 

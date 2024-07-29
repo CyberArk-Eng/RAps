@@ -20,10 +20,9 @@ function Remove-RAGroup {
 
     process {
         $restBody = @{
-            'Method'         = 'Delete'
-            'Uri'            = "https://$($Script:ApiURL)/v2-edge/groups/$GroupId"
-            'Authentication' = $Script:Authentication
-            'Token'          = $Script:token
+            'Method'     = 'Delete'
+            'Uri'        = "https://$($Script:ApiURL)/v2-edge/groups/$GroupId"
+            'WebSession' = $Script:WebSession
         }
         if ($PSCmdlet.ShouldProcess("GroupId: $GroupId", 'Remove the Remote Access group')) {
             $result = Invoke-RestMethod @restBody

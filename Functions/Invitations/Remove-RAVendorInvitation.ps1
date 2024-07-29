@@ -20,7 +20,7 @@ function Remove-RAVendorInvitation {
     process {
         $url = "https://$($Script:ApiURL)/v2-edge/invitations/vendor-invitations/$InvitationId"
         if ($PSCmdlet.ShouldProcess("VendorId: $VendorId", 'Removing vendor')) {
-            $result = Invoke-RestMethod -Method Delete -Uri $url -Authentication $Script:Authentication -Token $Script:token
+            $result = Invoke-RestMethod -Method Delete -Uri $url -WebSession $Script:WebSession
         }
     }
 

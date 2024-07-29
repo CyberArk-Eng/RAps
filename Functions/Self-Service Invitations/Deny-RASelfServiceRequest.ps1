@@ -19,7 +19,7 @@ function Deny-RASelfServiceRequest {
     process {
         $url = "https://$($Script:ApiURL)/v2-edge/selfServiceRequests/$RequestId"
         if ($PSCmdlet.ShouldProcess("RequestId: $RequestId", 'Reject the pending request')) {
-            $result = Invoke-RestMethod -Method Delete -Uri $url -Authentication $Script:Authentication -Token $Script:token
+            $result = Invoke-RestMethod -Method Delete -Uri $url -WebSession $Script:WebSession
         }
     }
 

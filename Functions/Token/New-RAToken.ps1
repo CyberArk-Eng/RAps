@@ -52,16 +52,13 @@ function New-RAToken {
                 Write-Verbose -Message 'Returning the access token.'
                 $Script:WebSession = $RAPsSession
                 $Script:ApiURL = $response.access_token | Get-ApiUrl
-                $Script:token = (ConvertTo-SecureString -String $response.access_token -AsPlainText -Force)
-                $Script:Authentication = 'Bearer'
+                $token = $response.access_token
+                $Authentication = 'Bearer'
                 $Script:ContentType = 'application/json'
+                $Script:WebSession.Headers.Add('Authorization', "$Authentication $token")
 
-                #if ($AsSecureString) {
-                #Write-Verbose -Message 'Encrypts the access token in a secure string class.'
-                #Write-Output -InputObject (ConvertTo-SecureString -String $response.access_token -AsPlainText -Force)
-                #} else {
                 Write-Output -InputObject $response.access_token
-                #}
+
             }
 
         }

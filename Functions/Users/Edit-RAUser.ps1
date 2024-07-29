@@ -30,8 +30,7 @@ function Edit-RAUser {
             'ContentType'    = $Script:ContentType
             'Uri'            = "https://$($Script:ApiURL)/v2-edge/users/$UserId/status"
             'Body'           = ( $Status | ConvertTo-Json )
-            'Authentication' = $Script:Authentication
-            'Token'          = $Script:token
+            'WebSession' =  $Script:WebSession
         }
         if ($PSCmdlet.ShouldProcess("UserId: $UserId", "Status change to $Status")) {
             $result = Invoke-RestMethod @restCall
