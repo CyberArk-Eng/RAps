@@ -117,8 +117,6 @@
 
         $decodedDomain = Parse-JWTtoken -token $access_token | Select-Object -ExpandProperty iss
 
-        $plainAuthn = $null
-
         $apiURL = Extract-DomainFromToken -decodedDomain $decodedDomain
     }
 
