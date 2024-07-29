@@ -57,10 +57,10 @@ function Get-RAVendors {
             'ByString' {
 
                 $query = [System.Collections.ArrayList]@()
+                $query.Add("limit=$Limit") | Out-Null
+                $query.Add("offset=$Offset") | Out-Null
                 Switch ($PSBoundParameters.Keys) {
                     'searchIn' { $query.Add("searchIn=$SearchIn") | Out-Null }
-                    'offset' { $query.Add("offset=$Offset") | Out-Null }
-                    'limit' { $query.Add("limit=$Limit") | Out-Null }
                     'invitedBy' { $query.Add("invitedBy=$InvitedBy") | Out-Null }
                     'searchString' { $query.Add("searchString=$SearchString") | Out-Null }
                 }
@@ -84,6 +84,6 @@ function Get-RAVendors {
     }
 
     end {
-        Write-Output -InputObject $result
+        Write-Output -InputObject $result | Select-Object -ExpandProperty vendors
     }
 }
