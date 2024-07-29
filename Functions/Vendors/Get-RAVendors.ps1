@@ -55,13 +55,13 @@ function Get-RAVendors {
     process {
         switch ($PSCmdlet.ParameterSetName) {
             'ByString' {
-                $url = [string]::Concat("https://$($Script:ApiURL)/v2-edge/vendors?",
-                    "invitedBy=$InvitedBy",
-                    "&limit=$Limit",
-                    "&offset=$Offset",
-                    "&searchIn=$SearchIn",
-                    "&searchString=$SearchString"
-                )
+                $url = "https://$($Script:ApiURL)/v2-edge/vendors?`
+                invitedBy=$InvitedBy`
+                &limit=$Limit`
+                &offset=$Offset`
+                &searchIn=$SearchIn`
+                &searchString=$SearchString"
+                
             }
             'ByVendorId' {
                 $url = "https://$($Script:ApiURL)/v2-edge/vendors/$VendorId"
@@ -72,6 +72,7 @@ function Get-RAVendors {
             Default {}
         }
         $result = Invoke-RestMethod -Method Get -Uri $url -Authentication $Script:Authentication -Token $Script:token
+        
     }
 
     end {
