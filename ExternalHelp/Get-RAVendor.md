@@ -1,11 +1,11 @@
 ---
-external help file: AleroPS-help.xml
-Module Name: AleroPS
+external help file: RAps-help.xml
+Module Name: RAps
 online version:
 schema: 2.0.0
 ---
 
-# Get-RAVendors
+# Get-RAVendor
 
 ## SYNOPSIS
 This function returns all vendors who match the search criteria.
@@ -14,18 +14,18 @@ This function returns all vendors who match the search criteria.
 
 ### ByString (Default)
 ```
-Get-RAVendors -Authn <SecureString> [-InvitedBy <String>] [-Limit <Int32>] [-Offset <Int32>]
+Get-RAVendor -Authn <SecureString> [-InvitedBy <String>] [-Limit <Int32>] [-Offset <Int32>]
  [-SearchIn <String>] [-SearchString <String>] [<CommonParameters>]
 ```
 
 ### ByPhoneNumber
 ```
-Get-RAVendors -Authn <SecureString> -PhoneNumber <String> [<CommonParameters>]
+Get-RAVendor -Authn <SecureString> -PhoneNumber <String> [<CommonParameters>]
 ```
 
 ### ByVendorId
 ```
-Get-RAVendors -Authn <SecureString> -VendorId <String> [<CommonParameters>]
+Get-RAVendor -Authn <SecureString> -VendorId <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -35,21 +35,21 @@ You can search vendors based on a string, their phone number or their vendor ID.
 
 ### Example 1
 ```
-PS C:\> Get-RAVendors -Authn $auth -SearchIn ALL -SearchString "Anna"
+PS C:\> Get-RAVendor -Authn $auth -SearchIn ALL -SearchString "Anna"
 ```
 
 This command returns all vendors who have 'Anna' mentioned anywhere in their profile.
 
 ### Example 2
 ```
-PS C:\> Get-RAVendors -Authn $auth -PhoneNumber +49123456789
+PS C:\> Get-RAVendor -Authn $auth -PhoneNumber +49123456789
 ```
 
 This command returns the vendor who has the entered international phone number registered in their profile.
 
 ### Example 3
 ```
-PS C:\> Get-RAVendors -Authn $auth -VendorId 12j3h2k4h21jkhg4jk123h4g
+PS C:\> Get-RAVendor -Authn $auth -VendorId 12j3h2k4h21jkhg4jk123h4g
 ```
 
 This command returns the vendor with the entered ID.

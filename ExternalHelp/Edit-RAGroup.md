@@ -1,6 +1,6 @@
 ---
-external help file: AleroPS-help.xml
-Module Name: AleroPS
+external help file: RAps-help.xml
+Module Name: RAps
 online version:
 schema: 2.0.0
 ---

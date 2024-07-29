@@ -1,11 +1,11 @@
 ---
-external help file: AleroPS-help.xml
-Module Name: AleroPS
+external help file: RAps-help.xml
+Module Name: RAps
 online version:
 schema: 2.0.0
 ---
 
-# Get-RAVendorInvitations
+# Get-RAVendorInvitation
 
 ## SYNOPSIS
 This function returns Alero invitation details.
@@ -14,13 +14,13 @@ This function returns Alero invitation details.
 
 ### BySearch (Default)
 ```
-Get-RAVendorInvitations -Authn <SecureString> [-CreatedBy <String>] [-Limit <Int32>] [-Offset <Int32>]
+Get-RAVendorInvitation -Authn <SecureString> [-CreatedBy <String>] [-Limit <Int32>] [-Offset <Int32>]
  [-SearchIn <String>] [-SearchString <String>] [<CommonParameters>]
 ```
 
 ### ByInvitationId
 ```
-Get-RAVendorInvitations -Authn <SecureString> -InvitationId <String> [<CommonParameters>]
+Get-RAVendorInvitation -Authn <SecureString> -InvitationId <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,14 +30,14 @@ You can either retrieve the information of a particular invitation by providing 
 
 ### Example 1
 ```
-PS C:\> Get-RAVendorInvitations -Authn $auth -SearchIn ALL -SearchString Peter
+PS C:\> Get-RAVendorInvitation -Authn $auth -SearchIn ALL -SearchString Peter
 ```
 
 This command returns all invitation details which contain 'Peter' in any of the fields.
 
 ### Example 2
 ```
-PS C:\> Get-RAVendorInvitations -Authn $auth -InvitationId 12h31g3sdlkcjs078f6
+PS C:\> Get-RAVendorInvitation -Authn $auth -InvitationId 12h31g3sdlkcjs078f6
 ```
 
 This command returns the invitation details of the specified Id.

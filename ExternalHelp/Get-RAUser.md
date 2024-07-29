@@ -1,11 +1,11 @@
 ---
-external help file: AleroPS-help.xml
-Module Name: AleroPS
+external help file: RAps-help.xml
+Module Name: RAps
 online version:
 schema: 2.0.0
 ---
 
-# Get-RAUsers
+# Get-RAUser
 
 ## SYNOPSIS
 This function returns user information, either based on a string search or on a unique user ID.
@@ -14,12 +14,12 @@ This function returns user information, either based on a string search or on a 
 
 ### BySearch (Default)
 ```
-Get-RAUsers -Authn <SecureString> [-Name <String>] [-Limit <Int32>] [-Offset <Int32>] [<CommonParameters>]
+Get-RAUser -Authn <SecureString> [-Name <String>] [-Limit <Int32>] [-Offset <Int32>] [<CommonParameters>]
 ```
 
 ### ById
 ```
-Get-RAUsers -Authn <SecureString> -UserId <String> [<CommonParameters>]
+Get-RAUser -Authn <SecureString> -UserId <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -30,14 +30,14 @@ The search applies to the name of the user.
 
 ### Example 1
 ```
-PS C:\> Get-RAUsers -Authn $auth -Name Robert
+PS C:\> Get-RAUser -Authn $auth -Name Robert
 ```
 
 This command returns a list of users with the name Robert.
 
 ### Example 2
 ```
-PS C:\> Get-RAUsers -Authn $auth -UserId jk23h423jh423k234khkj
+PS C:\> Get-RAUser -Authn $auth -UserId jk23h423jh423k234khkj
 ```
 
 This command returns the user with the specified ID.

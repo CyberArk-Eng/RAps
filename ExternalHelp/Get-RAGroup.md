@@ -1,11 +1,11 @@
 ---
-external help file: AleroPS-help.xml
-Module Name: AleroPS
+external help file: RAps-help.xml
+Module Name: RAps
 online version:
 schema: 2.0.0
 ---
 
-# Get-RAGroups
+# Get-RAGroup
 
 ## SYNOPSIS
 This command retrieves group information.
@@ -14,13 +14,13 @@ This command retrieves group information.
 
 ### BySearch (Default)
 ```
-Get-RAGroups -Authn <SecureString> [-Limit <Int32>] [-Offset <Int32>] [-SearchIn <String>] -Search <String>
+Get-RAGroup -Authn <SecureString> [-Limit <Int32>] [-Offset <Int32>] [-SearchIn <String>] -Search <String>
  [<CommonParameters>]
 ```
 
 ### ByGroupId
 ```
-Get-RAGroups -Authn <SecureString> -GroupId <String> [<CommonParameters>]
+Get-RAGroup -Authn <SecureString> -GroupId <String> [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -31,14 +31,14 @@ This may return multiple groups or you can select a single group by ID.
 
 ### Example 1
 ```
-PS C:\> Get-RAGroups -Authn $auth -Search "Prod" -Limit 15
+PS C:\> Get-RAGroup -Authn $auth -Search "Prod" -Limit 15
 ```
 
 This command returns all groups which have 'Prod' in their name but maximally 15.
 
 ### Example 2
 ```
-PS C:\> Get-RAGroups -Authn $auth -GroupId 1j43h12k4h31jhj123
+PS C:\> Get-RAGroup -Authn $auth -GroupId 1j43h12k4h31jhj123
 ```
 
 This command returns the group information with the provided ID.

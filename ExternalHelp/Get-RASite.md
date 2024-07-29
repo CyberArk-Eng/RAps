@@ -1,11 +1,11 @@
 ---
-external help file: AleroPS-help.xml
-Module Name: AleroPS
+external help file: RAps-help.xml
+Module Name: RAps
 online version:
 schema: 2.0.0
 ---
 
-# Get-RASites
+# Get-RASite
 
 ## SYNOPSIS
 This function returns all existing sites in the Alero portal.
@@ -13,7 +13,7 @@ This function returns all existing sites in the Alero portal.
 ## SYNTAX
 
 ```
-Get-RASites [-Authn] <SecureString> [[-Limit] <Int32>] [[-Offset] <Int32>] [<CommonParameters>]
+Get-RASite [-Authn] <SecureString> [[-Limit] <Int32>] [[-Offset] <Int32>] [<CommonParameters>]
 ```
 
 ## DESCRIPTION
@@ -23,14 +23,14 @@ You can return a number of sites from the Alero portal.
 
 ### Example 1
 ```
-PS C:\> Get-RASites -Authn $auth
+PS C:\> Get-RASite -Authn $auth
 ```
 
 This command returns the first 100 (default value of the $Limit parameter) sites from the Alero portal.
 
 ### Example 2
 ```
-PS C:\> Get-RASites -Authn $auth -Limit 50 -Offset 25
+PS C:\> Get-RASite -Authn $auth -Limit 50 -Offset 25
 ```
 
 This command returns 50 sites from the Alero portal, starting from the 25th site.

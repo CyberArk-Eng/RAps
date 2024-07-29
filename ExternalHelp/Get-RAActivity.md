@@ -1,11 +1,11 @@
 ---
-external help file: AleroPS-help.xml
-Module Name: AleroPS
+external help file: RAps-help.xml
+Module Name: RAps
 online version:
 schema: 2.0.0
 ---
 
-# Get-RAActivities
+# Get-RAActivity
 
 ## SYNOPSIS
 This function returns a list of entries matching the selected actitivities.
@@ -13,7 +13,7 @@ This function returns a list of entries matching the selected actitivities.
 ## SYNTAX
 
 ```
-Get-RAActivities [-Authn] <SecureString> [-ActivityType] <String[]> [[-FromTime] <DateTimeOffset>]
+Get-RAActivity [-Authn] <SecureString> [-ActivityType] <String[]> [[-FromTime] <DateTimeOffset>]
  [[-ToTime] <DateTimeOffset>] [[-Limit] <Int32>] [[-Offset] <Int32>] [<CommonParameters>]
 ```
 
@@ -25,7 +25,7 @@ Additionally, you need to enter the timespan in a datetime format for the start 
 
 ### Example 1
 ```
-PS C:\> Get-RAActivities -Authn $auth -ActivityType GroupsCreated -FromTime ((Get-Date).AddDays(-3)) -ToTime (Get-Date)
+PS C:\> Get-RAActivity -Authn $auth -ActivityType GroupsCreated -FromTime ((Get-Date).AddDays(-3)) -ToTime (Get-Date)
 ```
 
 This command returns all entries of group creation within the last three days.

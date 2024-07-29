@@ -1,11 +1,11 @@
 ---
-external help file: AleroPS-help.xml
-Module Name: AleroPS
+external help file: RAps-help.xml
+Module Name: RAps
 online version:
 schema: 2.0.0
 ---
 
-# Get-RAApplications
+# Get-RAApplication
 
 ## SYNOPSIS
 The function returns application information from the Alero portal.
@@ -13,7 +13,7 @@ The function returns application information from the Alero portal.
 ## SYNTAX
 
 ```
-Get-RAApplications [-Authn] <SecureString> [-SiteId] <String> [[-Limit] <Int32>] [[-Offset] <Int32>]
+Get-RAApplication [-Authn] <SecureString> [-SiteId] <String> [[-Limit] <Int32>] [[-Offset] <Int32>]
  [<CommonParameters>]
 ```
 
@@ -24,7 +24,7 @@ Application information is returned from the specified site.
 
 ### Example 1
 ```
-PS C:\> Get-RAApplications -Authn $auth -SiteId 11eb08818fdadaa4779234795f204bc175a7
+PS C:\> Get-RAApplication -Authn $auth -SiteId 11eb08818fdadaa4779234795f204bc175a7
 ```
 
 Returns application information.
