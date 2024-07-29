@@ -1,4 +1,4 @@
-function Get-RASites {
+function Get-RASite {
     [CmdletBinding()]
     param (
 

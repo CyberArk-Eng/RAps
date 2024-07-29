@@ -1,4 +1,4 @@
-function Get-RAGroups {
+function Get-RAGroup {
     [CmdletBinding(DefaultParameterSetName = 'BySearch')]
     param (
         [Parameter(

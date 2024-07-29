@@ -1,4 +1,4 @@
-function Get-RAActivities {
+function Get-RAActivity {
     [CmdletBinding()]
     param (
 

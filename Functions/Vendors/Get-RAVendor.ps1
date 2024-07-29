@@ -1,4 +1,4 @@
-function Get-RAVendors {
+function Get-RAVendor {
     [CmdletBinding(DefaultParameterSetName = 'ByString')]
     param (
 

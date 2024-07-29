@@ -1,4 +1,4 @@
-function Get-RAVendorInvitations {
+function Get-RAVendorInvitation {
     [CmdletBinding(DefaultParameterSetName = 'BySearch')]
     param (
 

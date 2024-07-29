@@ -1,4 +1,4 @@
-function Get-RAApplications {
+function Get-RAApplication {
     [CmdletBinding()]
     param (
 

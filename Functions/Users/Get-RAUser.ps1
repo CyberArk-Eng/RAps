@@ -1,4 +1,4 @@
-function Get-RAUsers {
+function Get-RAUser {
     [CmdletBinding(
         DefaultParameterSetName = 'BySearch'
     )]
