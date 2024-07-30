@@ -49,4 +49,4 @@ $scriptBlock = {
         "'$_'"
     }
 }
-Register-ArgumentCompleter -CommandName Get-RAActivities -ParameterName ActivityType -ScriptBlock $scriptBlock
+Register-ArgumentCompleter -CommandName Get-RAActivity -ParameterName ActivityType -ScriptBlock $scriptBlock
