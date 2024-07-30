@@ -57,7 +57,8 @@ function New-RAToken {
                 $Script:ContentType = 'application/json'
                 $Script:WebSession.Headers.Add('Authorization', "$Authentication $token")
 
-                Write-Output -InputObject $response.access_token
+                #Write-Output -InputObject $response.access_token
+                Write-Host "Authentication Success [Tenant: $TenantID]" -ForegroundColor Green
 
             }
 
