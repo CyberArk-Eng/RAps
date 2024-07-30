@@ -42,22 +42,32 @@ function Get-RAVendorInvitation {
     )
 
     begin {
-
+        $url = "https://$($Script:ApiURL)/v2-edge/invitations/vendor-invitations/"
     }
 
     process {
         switch ($PSCmdlet.ParameterSetName) {
             'ByInvitationId' {
-                $url = "https://$($Script:ApiURL)/v2-edge/invitations/vendor-invitations/$InvitationId"
+                $url = "$url/$InvitationId"
             }
             'BySearch' {
-                $url = [string]::Concat("https://$($Script:ApiURL)/v2-edge/invitations/vendor-invitations/?",
-                    "createdBy=$CreatedBy",
-                    "&limit=$Limit",
-                    "&offset=$Offset",
-                    "&searchIn=$SearchIn",
-                    "&searchString=$SearchString"
-                )
+
+                $query = [System.Collections.ArrayList]@()
+                $query.Add("limit=$Limit") | Out-Null
+                $query.Add("offset=$Offset") | Out-Null
+                Switch ($PSBoundParameters.Keys) {
+                    'searchIn' { $query.Add("searchIn=$SearchIn") | Out-Null }
+                    'createdBy' { $query.Add("createdBy=$InvitedBy") | Out-Null }
+                    'searchString' { $query.Add("searchString=$SearchString") | Out-Null }
+                }
+
+                $querystring = $query -join '&'
+                if ($null -ne $querystring) {
+                    $url = -join ($url, '?', $querystring)
+                }
+                Write-Verbose $url
+                $returnProperty = 'invitations'
+
             }
             Default {}
         }
@@ -66,7 +76,11 @@ function Get-RAVendorInvitation {
     }
 
     end {
-        Write-Output -InputObject $result
+        if ($null -ne $returnProperty) {
+            Write-Output -InputObject $result | Select-Object -ExpandProperty $returnProperty
+        } else {
+            Write-Output -InputObject $result
+        }
         Remove-Variable -Name result
     }
 }

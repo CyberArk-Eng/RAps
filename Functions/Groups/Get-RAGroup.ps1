@@ -21,12 +21,11 @@ function Get-RAGroup {
         [string]$SearchIn = 'ALL',
 
         [Parameter(
-            Mandatory,
             ParameterSetName = 'BySearch',
             HelpMessage = 'The string to use in the search'
         )]
         [SupportsWildcards()]
-        [string]$Search,
+        [string]$searchString,
 
         [Parameter(
             Mandatory,
@@ -37,16 +36,30 @@ function Get-RAGroup {
     )
 
     begin {
-
+        $url = "https://$($Script:ApiURL)/v2-edge/groups"
     }
 
     process {
         switch ($PSCmdlet.ParameterSetName) {
             'BySearch' {
-                $url = "https://$($Script:ApiURL)/v2-edge/groups?limit=$Limit&offset=$Offset&searchIn=$SearchIn&searchString=$Search"
+
+                $query = [System.Collections.ArrayList]@()
+                $query.Add("limit=$Limit") | Out-Null
+                $query.Add("offset=$Offset") | Out-Null
+                Switch ($PSBoundParameters.Keys) {
+                    'searchIn' { $query.Add("searchIn=$SearchIn") | Out-Null }
+                    'searchString' { $query.Add("searchString=$SearchString") | Out-Null }
+                }
+
+                $querystring = $query -join '&'
+                if ($null -ne $querystring) {
+                    $url = -join ($url, '?', $querystring)
+                }
+                Write-Verbose $url
+                $returnProperty = 'groups'
             }
             'ByGroupId' {
-                $url = "https://$($Script:ApiURL)/v2-edge/groups/$GroupId"
+                $url = "$url/$GroupId"
             }
             Default {}
         }
@@ -54,6 +67,10 @@ function Get-RAGroup {
     }
 
     end {
-        Write-Output -InputObject $result
+        if ($null -ne $returnProperty) {
+            Write-Output -InputObject $result | Select-Object -ExpandProperty $returnProperty
+        } else {
+            Write-Output -InputObject $result
+        }
     }
 }

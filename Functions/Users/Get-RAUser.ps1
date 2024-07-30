@@ -31,16 +31,30 @@ function Get-RAUser {
     )
 
     begin {
-
+        $url = "https://$($Script:ApiURL)/v2-edge/users"
     }
 
     process {
         switch ($PSCmdlet.ParameterSetName) {
             'BySearch' {
-                $url = "https://$($Script:ApiURL)/v2-edge/users/?limit=$Limit&name=$Name&offset=$Offset"
+
+                $query = [System.Collections.ArrayList]@()
+                $query.Add("limit=$Limit") | Out-Null
+                $query.Add("offset=$Offset") | Out-Null
+                Switch ($PSBoundParameters.Keys) {
+                    'Name' { $query.Add("Name=$Name") | Out-Null }
+                }
+
+                $querystring = $query -join '&'
+                if ($null -ne $querystring) {
+                    $url = -join ($url, '/?', $querystring)
+                }
+                Write-Verbose $url
+                $returnProperty = 'users'
+
             }
             'ById' {
-                $url = "https://$($Script:ApiURL)/v2-edge/users/$UserId"
+                $url = "$url/$UserId"
             }
             Default {}
         }
@@ -48,6 +62,10 @@ function Get-RAUser {
     }
 
     end {
-        Write-Output -InputObject $result
+        if ($null -ne $returnProperty) {
+            Write-Output -InputObject $result | Select-Object -ExpandProperty $returnProperty
+        } else {
+            Write-Output -InputObject $result
+        }
     }
 }

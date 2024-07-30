@@ -6,7 +6,18 @@ function Get-RAActivity {
             Mandatory,
             HelpMessage = 'List of Activity Types to retrieve'
         )]
-        [string[]]$ActivityType,
+        [ValidateSet('ApplicationCreated', 'ApplicationDeleted', 'ApplicationUpdated', 'ApplicationEnabled', 'ApplicationDisabled',
+            'ApplicationUserLogin', 'ConnectorCreated', 'ConnectorDeleted', 'ConnectorInitializationExtended', 'ConnectorInitialized',
+            'ConnectorUpdated', 'ConnectorLdapUpdated', 'ConnectorLdapInitialized', 'ConnectorLdapStopped', 'GroupsCreated',
+            'GroupsDeleted', 'GroupsUpdated', 'SettingsUpdated', 'SiteCreated', 'SiteDeleted', 'SiteUpdated', 'TenantAliasUpdated',
+            'TenantCreated', 'TenantLogin', 'UserActivated', 'UserDeactivated', 'VendorActivated', 'VendorDeactivated', 'VendorUpdated',
+            'UserDeleteFromTenant', 'VendorDeleteFromTenant', 'UserJoinTenant', 'VendorJoinTenant', 'UserCreated', 'UserUpdated',
+            'UserRoleChanged', 'ApplicationVendorLogin', 'AppCertificateCreated', 'AppCertificateDeleted', 'AppCertificateUpdated',
+            'CompanyUserInvitationCreate', 'VendorInvitationCreate', 'ServiceAccountCreated', 'ServiceAccountDeleted',
+            'ServiceAccountActivated', 'ServiceAccountDeactivated', 'ApplicationLoginBlocked', 'DirectAccessUserResponse',
+            'DirectAccessConnectionDenied', 'OfflineAccessUserViewedPassword', 'IdaptiveVendorSync', 'IdaptiveRoleSync',
+            'CompanyInviterUpdated')]
+        [string[]]$activityTypes,
 
         [Parameter(
             HelpMessage = 'Start of the period'
@@ -34,18 +45,28 @@ function Get-RAActivity {
     }
 
     process {
-        $activity = $ActivityType | ForEach-Object { "activityTypes=$_" }
-        $url = [string]::Concat(
-            "https://$($Script:ApiURL)/v2-edge/activities?$($activity -join '&')",
-            "&fromTime=$($FromTime.ToUnixTimeMilliseconds())",
-            "&limit=$Limit",
-            "&offset=$Offset",
-            "&toTime=$($ToTime.ToUnixTimeMilliseconds())"
-        )
+
+        $url = "https://$($Script:ApiURL)/v2-edge/activities"
+
+        $query = [System.Collections.ArrayList]@()
+        $query.Add("limit=$Limit") | Out-Null
+        $query.Add("offset=$Offset") | Out-Null
+        Switch ($PSBoundParameters.Keys) {
+            'activityTypes' { $query.Add("activityTypes=$($activityTypes -join ',')") | Out-Null }
+            'fromTime' { $query.Add("fromTime=$($FromTime.ToUnixTimeSeconds())") | Out-Null }
+            'toTime' { $query.Add("toTime=$($toTime.ToUnixTimeSeconds())") | Out-Null }
+        }
+
+        $querystring = $query -join '&'
+        if ($null -ne $querystring) {
+            $url = -join ($url, '?', $querystring)
+        }
+        Write-Verbose $url
+
         $result = Invoke-RestMethod -Method Get -Uri $url -WebSession $Script:WebSession
     }
 
     end {
-        Write-Output -InputObject $result
+        Write-Output -InputObject $result | Select-Object -ExpandProperty activities
     }
 }
