@@ -83,6 +83,8 @@
         'Edit-RAVendor',
         'Remove-RAVendor',
         'New-RAInvitation',
+        'New-RAVendorInvitation',
+        'New-RAUserInvitation',
         'Get-RAVendorInvitation',
         'Remove-RAVendorInvitation',
         'Get-RASelfServiceRequest',
