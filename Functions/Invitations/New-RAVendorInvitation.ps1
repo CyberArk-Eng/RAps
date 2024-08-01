@@ -1,4 +1,4 @@
-function New-RAInvitation {
+function New-RAVendorInvitation {
     [CmdletBinding(
         SupportsShouldProcess,
         ConfirmImpact = 'Medium'
@@ -39,8 +39,8 @@ function New-RAInvitation {
         [Parameter(
             HelpMessage = 'Select if the vendor should be activated automatically or not (default Activated)'
         )]
-        [ValidateSet("Activated","RequiresAdminConfirmation")]
-        $initialStatus = "Activated",
+        [ValidateSet('Activated', 'RequiresAdminConfirmation')]
+        $initialStatus = 'Activated',
 
         [Parameter(
             Mandatory,
@@ -63,7 +63,7 @@ function New-RAInvitation {
         [Parameter(
             HelpMessage = 'Enter the vendors allowed days (default all week)'
         )]
-        [Array]$allowedDays = @("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"),
+        [Array]$allowedDays = @('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'),
 
         [Parameter(
             Mandatory,
@@ -85,8 +85,8 @@ function New-RAInvitation {
         [Parameter(
             HelpMessage = 'Enter provisioningtype'
         )]
-        [ValidateSet("ProvisionedByAlero", "ManagedByAdmin", "None")]
-        $provisioningType = "ProvisionedByAlero",
+        [ValidateSet('ProvisionedByAlero', 'ManagedByAdmin', 'None')]
+        $provisioningType = 'ProvisionedByAlero',
 
         [Parameter(
             Mandatory,
@@ -137,48 +137,48 @@ function New-RAInvitation {
 
         $InvitationBody = @{
 
-            "companyName" = $companyName
-            "emailAddress" = $emailAddress
-            "firstName" = $firstName
-            "lastName" = $lastName
-            "phoneNumber" = $phoneNumber
-            "initialStatus" = $initialStatus
-            "accessStartDate" = ([DateTimeOffset]$startDate).ToUnixTimeSeconds()
-            "accessEndDate" = ([DateTimeOffset]$endDate).ToUnixTimeSeconds()
-            "accessTimeDetails" = @{
-                "timeZone" = $timeZone
-                "allowedDays" = $allowedDays
-                "allDay" = $allDay
-                "workingHoursStartSeconds" = 0
-                "workingHoursEndSeconds" = 0
+            'companyName'                 = $companyName
+            'emailAddress'                = $emailAddress
+            'firstName'                   = $firstName
+            'lastName'                    = $lastName
+            'phoneNumber'                 = $phoneNumber
+            'initialStatus'               = $initialStatus
+            'accessStartDate'             = ([DateTimeOffset]$startDate).ToUnixTimeSeconds()
+            'accessEndDate'               = ([DateTimeOffset]$endDate).ToUnixTimeSeconds()
+            'accessTimeDetails'           = @{
+                'timeZone'                 = $timeZone
+                'allowedDays'              = $allowedDays
+                'allDay'                   = $allDay
+                'workingHoursStartSeconds' = 0
+                'workingHoursEndSeconds'   = 0
             }
-            "canInvite" = $canInvite
-            "comments" = $comment
-            "provisioningType" = $provisioningType
-            "provisioningUsername" = ("$firstname.$lastname.$($companyName.Replace(' ','-')).alero")
-            "provisioningGroups" = $provisioningGroups
-            "applications" = @(
+            'canInvite'                   = $canInvite
+            'comments'                    = $comment
+            'provisioningType'            = $provisioningType
+            'provisioningUsername'        = ("$firstname.$lastname.$($companyName.Replace(' ','-')).alero")
+            'provisioningGroups'          = $provisioningGroups
+            'applications'                = @(
                 @{
-                "siteId" = $siteId
-                "applicationId" = $applicationId
+                    'siteId'        = $siteId
+                    'applicationId' = $applicationId
                 }
             )
-            "customText" = $customText
-            "maxNumOfInvitedVendors" = $maxNumOfInvitedVendors
-            "phoneAndEmailAuth" = $phoneAndEmailAuth
-            "invitedVendorsInitialStatus" = $initialStatus
-            "enableWebAppsAccess" = true
-            }
-        
-        
+            'customText'                  = $customText
+            'maxNumOfInvitedVendors'      = $maxNumOfInvitedVendors
+            'phoneAndEmailAuth'           = $phoneAndEmailAuth
+            'invitedVendorsInitialStatus' = $initialStatus
+            'enableWebAppsAccess'         = true
+        }
+
+
         $url = "https://$($Script:ApiURL)/v2-edge/invitations/vendor-invitations"
-        
+
         $restCall = @{
-            'Method'         = 'Post'
-            'Uri'            = $url
-            'Body'           = ($InvitationBody | ConvertTo-Json -Depth 3)
-            'WebSession'     = $Script:WebSession
-            'ContentType'    = $Script:ContentType
+            'Method'      = 'Post'
+            'Uri'         = $url
+            'Body'        = ($InvitationBody | ConvertTo-Json -Depth 3)
+            'WebSession'  = $Script:WebSession
+            'ContentType' = $Script:ContentType
         }
         if ($PSCmdlet.ShouldProcess('Remote Access Vendor Invitation', 'Creating a new invitation')) {
             $result = Invoke-RestMethod @restCall
