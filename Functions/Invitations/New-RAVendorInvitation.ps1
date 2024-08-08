@@ -39,7 +39,7 @@ function New-RAVendorInvitation {
         [Parameter(
             HelpMessage = 'Select if the vendor should be activated automatically or not (default Activated)'
         )]
-        [ValidateSet('Activated','RequiresAdminConfirmation')]
+        [ValidateSet('Activated', 'RequiresAdminConfirmation')]
         $initialStatus = 'Activated',
 
         [Parameter(
@@ -148,48 +148,48 @@ function New-RAVendorInvitation {
 
         $InvitationBody = @{
 
-            'companyName' = $companyName
-            'emailAddress' = $emailAddress
-            'firstName' = $firstName
-            'lastName' = $lastName
-            'phoneNumber' = $phoneNumber
-            'initialStatus' = $initialStatus
-            'accessStartDate' = ([DateTimeOffset]$startDate).ToUnixTimeSeconds()
-            'accessEndDate' = ([DateTimeOffset]$endDate).ToUnixTimeSeconds()
-            'accessTimeDetails' = @{
-                'timeZone' = $timeZone
-                'allowedDays' = $allowedDays
-                'allDay' = $allDay
+            'companyName'                 = $companyName
+            'emailAddress'                = $emailAddress
+            'firstName'                   = $firstName
+            'lastName'                    = $lastName
+            'phoneNumber'                 = $phoneNumber
+            'initialStatus'               = $initialStatus
+            'accessStartDate'             = ([DateTimeOffset]$startDate).ToUnixTimeMilliseconds()
+            'accessEndDate'               = ([DateTimeOffset]$endDate).ToUnixTimeMilliseconds()
+            'accessTimeDetails'           = @{
+                'timeZone'                 = $timeZone
+                'allowedDays'              = $allowedDays
+                'allDay'                   = $allDay
                 'workingHoursStartSeconds' = 0
-                'workingHoursEndSeconds' = 0
+                'workingHoursEndSeconds'   = 0
             }
-            'canInvite' = $canInvite
-            'comments' = $comment
-            'provisioningType' = $provisioningType
-            'provisioningUsername' = ("$firstname.$lastname.$($companyName.Replace(' ','-')).alero")
-            'provisioningGroups' = $provisioningGroups
-            'applications' = $applications #@(
-                #@{
-                #'siteId' = $siteId
-                #'applicationId' = $applicationId
-                #}
-            #)
-            'customText' = $customText
-            'maxNumOfInvitedVendors' = $maxNumOfInvitedVendors
-            'phoneAndEmailAuth' = $phoneAndEmailAuth
+            'canInvite'                   = $canInvite
+            'comments'                    = $comment
+            'provisioningType'            = $provisioningType
+            'provisioningUsername'        = ("$firstname.$lastname.$($companyName.Replace(' ','-')).alero")
+            'provisioningGroups'          = $provisioningGroups
+            'applications'                = @(
+                @{
+                    'siteId'        = $siteId
+                    'applicationId' = $applicationId
+                }
+            )
+            'customText'                  = $customText
+            'maxNumOfInvitedVendors'      = $maxNumOfInvitedVendors
+            'phoneAndEmailAuth'           = $phoneAndEmailAuth
             'invitedVendorsInitialStatus' = $initialStatus
-            'enableWebAppsAccess' = $enableWebAppsAccess
-            }
-        
-        
+            'enableWebAppsAccess'         = true
+        }
+
+
         $url = "https://$($Script:ApiURL)/v2-edge/invitations/vendor-invitations"
-        
+
         $restCall = @{
-            'Method'         = 'Post'
-            'Uri'            = $url
-            'Body'           = ($InvitationBody | ConvertTo-Json -Depth 3)
-            'WebSession'     = $Script:WebSession
-            'ContentType'    = $Script:ContentType
+            'Method'      = 'Post'
+            'Uri'         = $url
+            'Body'        = ($InvitationBody | ConvertTo-Json -Depth 3)
+            'WebSession'  = $Script:WebSession
+            'ContentType' = $Script:ContentType
         }
         if ($PSCmdlet.ShouldProcess('Remote Access Vendor Invitation', 'Creating a new invitation')) {
             $result = Invoke-RestMethod @restCall

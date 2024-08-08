@@ -1,4 +1,4 @@
-function New-RAInvitation {
+function New-RAUserInvitation {
     [CmdletBinding(
         SupportsShouldProcess,
         ConfirmImpact = 'Medium'
@@ -19,15 +19,15 @@ function New-RAInvitation {
     }
 
     process {
-        
+
         $url = "https://$($Script:ApiURL)/v2-edge/invitations/user-invitations"
-        
+
         $restCall = @{
-            'Method'         = 'Post'
-            'Uri'            = $url
-            'Body'           = ($InvitationRequest | ConvertTo-Json -Depth 3)
-            'WebSession'     = $Script:WebSession
-            'ContentType'    = $Script:ContentType
+            'Method'      = 'Post'
+            'Uri'         = $url
+            'Body'        = ($InvitationRequest | ConvertTo-Json -Depth 3)
+            'WebSession'  = $Script:WebSession
+            'ContentType' = $Script:ContentType
         }
         if ($PSCmdlet.ShouldProcess('Remote Access User Invitation', 'Creating a new invitation')) {
             $result = Invoke-RestMethod @restCall
