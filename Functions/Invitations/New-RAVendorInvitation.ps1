@@ -1,4 +1,4 @@
-function New-RAInvitation {
+function New-RAVendorInvitation {
     [CmdletBinding(
         SupportsShouldProcess,
         ConfirmImpact = 'Medium'
@@ -34,13 +34,13 @@ function New-RAInvitation {
             Mandatory,
             HelpMessage = 'Enter the vendors phone number'
         )]
-        $phoneNumber,
+        [string]$phoneNumber,
 
         [Parameter(
             HelpMessage = 'Select if the vendor should be activated automatically or not (default Activated)'
         )]
-        [ValidateSet("Activated","RequiresAdminConfirmation")]
-        $initialStatus = "Activated",
+        [ValidateSet('Activated','RequiresAdminConfirmation')]
+        $initialStatus = 'Activated',
 
         [Parameter(
             Mandatory,
@@ -63,19 +63,22 @@ function New-RAInvitation {
         [Parameter(
             HelpMessage = 'Enter the vendors allowed days (default all week)'
         )]
-        [Array]$allowedDays = @("Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"),
+        [Array]$allowedDays = @('MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY','SUNDAY'),
 
         [Parameter(
+            ParameterSetName = 'allDay',
             Mandatory,
             HelpMessage = 'Enter the vendors allowed timeframe (default all day)'
         )]
-        [switch]$allDay,
+        [ValidateSet('True','False')]
+        $allDay = $true,
 
         [Parameter(
             Mandatory,
             HelpMessage = 'Select if the vendor should be able to invite other vendors or not.'
         )]
-        [bool]$canInvite = $false,
+        [ValidateSet('True','False')]
+        $canInvite = $false,
 
         [Parameter(
             HelpMessage = 'Enter a comment'
@@ -85,8 +88,8 @@ function New-RAInvitation {
         [Parameter(
             HelpMessage = 'Enter provisioningtype'
         )]
-        [ValidateSet("ProvisionedByAlero", "ManagedByAdmin", "None")]
-        $provisioningType = "ProvisionedByAlero",
+        [ValidateSet('ProvisionedByAlero', 'ManagedByAdmin', 'None')]
+        $provisioningType = 'ProvisionedByAlero',
 
         [Parameter(
             Mandatory,
@@ -96,18 +99,24 @@ function New-RAInvitation {
 
         [Parameter(
             Mandatory,
-            HelpMessage = 'Enter the site ID the vendor is to be invited to'
+            HelpMessage = 'Enter the site ID and application ID as a hashtable'
         )]
-        [string]$siteId,
+        [hashtable[]]$applications,
+
+        #[Parameter(
+        #    Mandatory,
+        #    HelpMessage = 'Enter the site ID the vendor is to be invited to'
+        #)]
+        #[string]$siteId,
+
+        #[Parameter(
+        #    Mandatory,
+        #   HelpMessage = 'Enter the application ID the vendor is to have access to'
+        #)]
+        #[string]$applicationId,
 
         [Parameter(
-            Mandatory,
-            HelpMessage = 'Enter the application ID the vendor is to have access to'
-        )]
-        [string]$applicationId,
-
-        [Parameter(
-            HelpMessage = 'Enter a custom text for the invitation'
+            HelpMessage = 'The name of a predefined invitation template added to the vendor invitation'
         )]
         $customText,
 
@@ -120,12 +129,14 @@ function New-RAInvitation {
         [Parameter(
             HelpMessage = 'Select whether the vendor should be able to authenticate with email and sms (default false)'
         )]
-        [bool]$phoneAndEmailAuth = $false,
+        [ValidateSet('True','False')]
+        $phoneAndEmailAuth = $false,
 
         [Parameter(
-            HelpMessage = 'Select whether the vendor should be allowed access to web apps or not (default true)'
+            HelpMessage = 'Select whether the vendor should be allowed access to web apps or not (default false)'
         )]
-        [bool]$enableWebAppsAccess = $true
+        [ValidateSet('True','False')]
+        $enableWebAppsAccess = $false
 
     )
 
@@ -137,37 +148,37 @@ function New-RAInvitation {
 
         $InvitationBody = @{
 
-            "companyName" = $companyName
-            "emailAddress" = $emailAddress
-            "firstName" = $firstName
-            "lastName" = $lastName
-            "phoneNumber" = $phoneNumber
-            "initialStatus" = $initialStatus
-            "accessStartDate" = ([DateTimeOffset]$startDate).ToUnixTimeSeconds()
-            "accessEndDate" = ([DateTimeOffset]$endDate).ToUnixTimeSeconds()
-            "accessTimeDetails" = @{
-                "timeZone" = $timeZone
-                "allowedDays" = $allowedDays
-                "allDay" = $allDay
-                "workingHoursStartSeconds" = 0
-                "workingHoursEndSeconds" = 0
+            'companyName' = $companyName
+            'emailAddress' = $emailAddress
+            'firstName' = $firstName
+            'lastName' = $lastName
+            'phoneNumber' = $phoneNumber
+            'initialStatus' = $initialStatus
+            'accessStartDate' = ([DateTimeOffset]$startDate).ToUnixTimeSeconds()
+            'accessEndDate' = ([DateTimeOffset]$endDate).ToUnixTimeSeconds()
+            'accessTimeDetails' = @{
+                'timeZone' = $timeZone
+                'allowedDays' = $allowedDays
+                'allDay' = $allDay
+                'workingHoursStartSeconds' = 0
+                'workingHoursEndSeconds' = 0
             }
-            "canInvite" = $canInvite
-            "comments" = $comment
-            "provisioningType" = $provisioningType
-            "provisioningUsername" = ("$firstname.$lastname.$($companyName.Replace(' ','-')).alero")
-            "provisioningGroups" = $provisioningGroups
-            "applications" = @(
-                @{
-                "siteId" = $siteId
-                "applicationId" = $applicationId
-                }
-            )
-            "customText" = $customText
-            "maxNumOfInvitedVendors" = $maxNumOfInvitedVendors
-            "phoneAndEmailAuth" = $phoneAndEmailAuth
-            "invitedVendorsInitialStatus" = $initialStatus
-            "enableWebAppsAccess" = true
+            'canInvite' = $canInvite
+            'comments' = $comment
+            'provisioningType' = $provisioningType
+            'provisioningUsername' = ("$firstname.$lastname.$($companyName.Replace(' ','-')).alero")
+            'provisioningGroups' = $provisioningGroups
+            'applications' = $applications #@(
+                #@{
+                #'siteId' = $siteId
+                #'applicationId' = $applicationId
+                #}
+            #)
+            'customText' = $customText
+            'maxNumOfInvitedVendors' = $maxNumOfInvitedVendors
+            'phoneAndEmailAuth' = $phoneAndEmailAuth
+            'invitedVendorsInitialStatus' = $initialStatus
+            'enableWebAppsAccess' = $enableWebAppsAccess
             }
         
         
