@@ -8,9 +8,21 @@ function New-RAUserInvitation {
 
         [Parameter(
             Mandatory,
-            HelpMessage = 'Enter all properties of the Invitation Request'
+            HelpMessage = 'Enter a hashtable of users to invite. Name and emailaddress are required fields'
         )]
-        [HashTable]$InvitationRequest
+        [HashTable[]]$usersToInvite,
+
+        [Parameter(
+            HelpMessage = 'Set an initial status for the users'
+        )]
+        [ValidateSet("Deactivated")]
+        $initialStatus = "Deactivated",
+
+        [Parameter(
+            HelpMessage = 'Set an expirationtime for the invitation'
+        )]
+        $invitationExpirationTime = 0
+
 
     )
 
@@ -20,12 +32,18 @@ function New-RAUserInvitation {
 
     process {
 
+        $InvitationBody = @{
+            "usersToInvite" = $usersToInvite
+            "initialStatus" = $initialStatus
+            "invitationExpirationTime" = $invitationExpirationTime
+          }
+
         $url = "https://$($Script:ApiURL)/v2-edge/invitations/user-invitations"
 
         $restCall = @{
             'Method'      = 'Post'
             'Uri'         = $url
-            'Body'        = ($InvitationRequest | ConvertTo-Json -Depth 3)
+            'Body'        = ($InvitationBody | ConvertTo-Json -Depth 3)
             'WebSession'  = $Script:WebSession
             'ContentType' = $Script:ContentType
         }
