@@ -83,7 +83,7 @@ function New-RAVendorInvitation {
         [Parameter(
             HelpMessage = 'Enter a comment'
         )]
-        $comment,
+        $comment = $null,
 
         [Parameter(
             HelpMessage = 'Enter provisioningtype'
@@ -93,7 +93,7 @@ function New-RAVendorInvitation {
 
         [Parameter(
             Mandatory,
-            HelpMessage = 'Enter the groups the vendor should be a member of'
+            HelpMessage = 'Enter the group IDs the vendor should be a member of'
         )]
         [string[]]$provisioningGroups,
 
@@ -103,22 +103,10 @@ function New-RAVendorInvitation {
         )]
         [hashtable[]]$applications,
 
-        #[Parameter(
-        #    Mandatory,
-        #    HelpMessage = 'Enter the site ID the vendor is to be invited to'
-        #)]
-        #[string]$siteId,
-
-        #[Parameter(
-        #    Mandatory,
-        #   HelpMessage = 'Enter the application ID the vendor is to have access to'
-        #)]
-        #[string]$applicationId,
-
         [Parameter(
             HelpMessage = 'The name of a predefined invitation template added to the vendor invitation'
         )]
-        $customText,
+        $customText = $null,
 
         [Parameter(
             Mandatory,
@@ -146,7 +134,7 @@ function New-RAVendorInvitation {
 
     process {
 
-        $InvitationBody = @{
+        $InvitationBody = [ordered]@{
 
             'companyName'                 = $companyName
             'emailAddress'                = $emailAddress
@@ -168,19 +156,13 @@ function New-RAVendorInvitation {
             'provisioningType'            = $provisioningType
             'provisioningUsername'        = ("$firstname.$lastname.$($companyName.Replace(' ','-')).alero")
             'provisioningGroups'          = $provisioningGroups
-            'applications'                = @(
-                @{
-                    'siteId'        = $siteId
-                    'applicationId' = $applicationId
-                }
-            )
+            'applications'                = $applications
             'customText'                  = $customText
             'maxNumOfInvitedVendors'      = $maxNumOfInvitedVendors
             'phoneAndEmailAuth'           = $phoneAndEmailAuth
             'invitedVendorsInitialStatus' = $initialStatus
-            'enableWebAppsAccess'         = true
+            'enableWebAppsAccess'         = $enableWebAppsAccess
         }
-
 
         $url = "https://$($Script:ApiURL)/v2-edge/invitations/vendor-invitations"
 
