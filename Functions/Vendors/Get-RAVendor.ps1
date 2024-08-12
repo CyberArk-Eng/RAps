@@ -50,6 +50,9 @@ function Get-RAVendor {
 
     begin {
         $url = "https://$($Script:ApiURL)/v2-edge/vendors"
+        if ($phoneNumber) {
+            $phoneNumber = $phoneNumber.Replace("+","%2B")
+        }
     }
 
     process {
@@ -75,7 +78,7 @@ function Get-RAVendor {
                 $url = "$url/$VendorId"
             }
             'ByPhoneNumber' {
-                $url = "$url/$PhoneNumber"
+                $url = "$url/phone/$PhoneNumber"
             }
             Default {}
         }
@@ -84,6 +87,16 @@ function Get-RAVendor {
     }
 
     end {
-        Write-Output -InputObject $result | Select-Object -ExpandProperty vendors
+        switch ($PSCmdlet.ParameterSetName) {
+            'ByString' {
+                Write-Output -InputObject $result | Select-Object -ExpandProperty vendors
+            }
+            'ByPhoneNumber' {
+                Write-Output -InputObject $result
+            }
+            'ByVendorId' {
+                Write-Output -InputObject $result
+            }       
+        }
     }
 }

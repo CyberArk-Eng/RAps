@@ -59,7 +59,7 @@ function New-RAToken {
 
                 #Write-Output -InputObject $response.access_token
                 Write-Host "Authentication Success [Tenant: $TenantID]" -ForegroundColor Green
-
+                Write-Output $token
             }
 
         }
