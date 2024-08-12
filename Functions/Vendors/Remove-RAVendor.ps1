@@ -7,20 +7,40 @@ function Remove-RAVendor {
     param (
 
         [Parameter(
+            ParameterSetName = 'ByVendorId',
             HelpMessage = 'The unique ID of the vendor'
         )]
-        [string]$VendorId
+        [string]$VendorId,
+
+        [Parameter(
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'The unique phonenumber of the vendor'
+        )]
+        [string]$phoneNumber
     )
 
-    begin {
 
+
+    begin {
+        $url = "https://$($Script:ApiURL)/v2-edge/vendors"
+        if ($phoneNumber) {
+            $phoneNumber = $phoneNumber.Replace("+","%2B")
+        }
     }
 
-    process {
-        $url = "https://$($Script:ApiURL)/v2-edge/vendors/$VendorId"
-        if ($PSCmdlet.ShouldProcess("VendorId: $VendorId", 'Delete the Vendor')) {
-            $result = Invoke-RestMethod -Method Delete -Uri $url -WebSession $Script:WebSession
+    process {        
+        switch ($PSCmdlet.ParameterSetName) {
+            "ByVendorId" {
+                $url = "$url/$VendorId"
+            }
+
+            'ByPhonenumber' {
+                $url = "$url/phones/$phoneNumber"
+            }   
         }
+
+    $result = Invoke-RestMethod -Method Delete -Uri $url -WebSession $Script:WebSession
+
     }
 
     end {

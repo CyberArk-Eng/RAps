@@ -21,6 +21,10 @@ function Edit-RAVendor {
             ParameterSetName = 'Vendor',
             HelpMessage = 'All vendor properties must be provided.'
         )]
+        [Parameter(
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
         [Hashtable]$VendorUpdateRequest,
 
         [Parameter(
@@ -28,21 +32,34 @@ function Edit-RAVendor {
             HelpMessage = 'The updated status of the vendors account.'
         )]
         [ValidateSet('Deactivated', 'Activated')]
-        [string]$Status
+        [string]$Status,
+
+        [Parameter(
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'The updated status of the vendors account.'
+        )]
+        [string]$phoneNumber
     )
 
     begin {
-
+        $url = "https://$($Script:ApiURL)/v2-edge/vendors"
+        if ($phoneNumber) {
+            $phoneNumber = $phoneNumber.Replace("+","%2B")
+        }
     }
 
     process {
         switch ($PSCmdlet.ParameterSetName) {
             'Status' {
-                $url = "https://$($Script:ApiURL)/v2-edge/vendors/$VendorId/status"
+                $url = "$url/$VendorId/status"
                 $body = $Status | ConvertTo-Json
             }
             'Vendor' {
-                $url = "https://$($Script:ApiURL)/v2-edge/vendors/$VendorId"
+                $url = "$url/$VendorId"
+                $body = $VendorUpdateRequest | ConvertTo-Json -Depth 3
+            }
+            'ByPhonenumber' {
+                $url = "$url/phone/$phoneNumber"
                 $body = $VendorUpdateRequest | ConvertTo-Json -Depth 3
             }
             Default {}
@@ -51,7 +68,7 @@ function Edit-RAVendor {
             'Method'         = 'Put'
             'Uri'            = $url
             'ContentType'    = $Script:ContentType
-            'WebSession' =  $Script:WebSession
+            'WebSession'     = $Script:WebSession
             'Body'           = $body
         }
         if ($PSCmdlet.ShouldProcess("VendorId: $VendorId", 'Updating the vendor')) {
