@@ -1,6 +1,5 @@
 function Remove-RAVendor {
     [CmdletBinding(
-        SupportsShouldProcess,
         ConfirmImpact = 'Medium'
     )]
     [OutputType([string])]

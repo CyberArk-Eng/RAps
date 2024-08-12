@@ -13,27 +13,47 @@ function Edit-RAUser {
         [string]$UserId,
 
         [Parameter(
-            Mandatory,
+            ParameterSetName = 'Status', Mandatory,
             HelpMessage = 'The updated status of the user account.'
         )]
         [ValidateSet('Deactivated', 'Activated')]
-        [string]$Status
+        [string]$Status,
+        [Parameter(
+            ParameterSetName = 'Role', Mandatory,
+            HelpMessage = 'The updated role of the user account.'
+        )]
+        [ValidateSet('TenantAdmin, User, VendorManager')]
+        [string]$Role
     )
 
     begin {
-
+        $url = "https://$($Script:ApiURL)/v2-edge/users/$UserId"
     }
 
     process {
-        $restCall = @{
-            'Method'         = 'Put'
-            'ContentType'    = $Script:ContentType
-            'Uri'            = "https://$($Script:ApiURL)/v2-edge/users/$UserId/status"
-            'Body'           = ( $Status | ConvertTo-Json )
-            'WebSession' =  $Script:WebSession
-        }
-        if ($PSCmdlet.ShouldProcess("UserId: $UserId", "Status change to $Status")) {
-            $result = Invoke-RestMethod @restCall
+        switch ($PSCmdlet.ParameterSetName) {
+
+            'Status' {
+                $restCall = @{
+                    'Method'         = 'Put'
+                    'ContentType'    = $Script:ContentType
+                    'Uri'            = "$url/status"
+                    'Body'           = ( $Status | ConvertTo-Json )
+                    'WebSession'     =  $Script:WebSession
+                }
+                $result = Invoke-RestMethod @restCall
+            }
+
+            'Role' {
+                $restCall = @{
+                    'Method'         = 'Put'
+                    'ContentType'    = $Script:ContentType
+                    'Uri'            = "$url/role"
+                    'Body'           = ( $Role | ConvertTo-Json )
+                    'WebSession'     = $Script:WebSession
+                }
+                $result = Invoke-RestMethod @restCall
+            }
         }
     }
 
