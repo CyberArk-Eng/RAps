@@ -13,13 +13,15 @@ function Edit-RAUser {
         [string]$UserId,
 
         [Parameter(
-            ParameterSetName = 'Status', Mandatory,
+            Mandatory,
+            ParameterSetName = 'Status', 
             HelpMessage = 'The updated status of the user account.'
         )]
         [ValidateSet('Deactivated', 'Activated')]
         [string]$Status,
         [Parameter(
-            ParameterSetName = 'Role', Mandatory,
+            Mandatory,
+            ParameterSetName = 'Role', 
             HelpMessage = 'The updated role of the user account.'
         )]
         [ValidateSet('TenantAdmin, User, VendorManager')]
