@@ -18,6 +18,31 @@ function Edit-RAVendor {
         [string]$VendorId,
 
         [Parameter(
+            Mandatory,
+            ParameterSetName = 'Vendor',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        $accessStartDate,
+
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'Vendor',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        $accessEndDate,
+
+        [Parameter(
+            Mandatory,
             ParameterSetName = 'Vendor',
             HelpMessage = 'All vendor properties must be provided.'
         )]
@@ -25,9 +50,107 @@ function Edit-RAVendor {
             ParameterSetName = 'ByPhonenumber',
             HelpMessage = 'All vendor properties must be provided.'
         )]
-        [Hashtable]$VendorUpdateRequest,
+        [bool]$canInvite = $false,
 
         [Parameter(
+            Mandatory,
+            ParameterSetName = 'Vendor',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [ValidateSet('Activated', 'RequiresAdminConfirmation')]
+        $invitedVendorsInitialStatus,
+
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'Vendor',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [int]$maxNumInvitedVendors,
+
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'Vendor',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [ValidateSet('ProvisionedByAlero', 'ManagedByAdmin', 'None')]
+        $provisioningType = 'ProvisionedByAlero',
+
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'Vendor',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        $userName,
+
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'Vendor',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [string[]]$groups,
+
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'Vendor',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        $comments = "",
+
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'Vendor',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [hashtable[]]$applications,
+
+        [Parameter(
+            Mandatory,
+            ParameterSetName = 'Vendor',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [Parameter(
+            ParameterSetName = 'ByPhonenumber',
+            HelpMessage = 'All vendor properties must be provided.'
+        )]
+        [bool]$pvwaApplications = $true,
+
+        [Parameter(
+            Mandatory,
             ParameterSetName = 'Status',
             HelpMessage = 'The updated status of the vendors account.'
         )]
@@ -35,6 +158,7 @@ function Edit-RAVendor {
         [string]$Status,
 
         [Parameter(
+            Mandatory,
             ParameterSetName = 'ByPhonenumber',
             HelpMessage = 'The updated status of the vendors account.'
         )]
@@ -49,7 +173,23 @@ function Edit-RAVendor {
     }
 
     process {
+
+        $VendorUpdateRequest = [ordered]@{
+            "accessStartDate"= ([DateTimeOffset]$accessStartDate).ToUnixTimeMilliseconds()
+            "accessEndDate"= ([DateTimeOffset]$accessEndDate).ToUnixTimeMilliseconds()
+            "canInvite"= $canInvite
+            "invitedVendorsInitialStatus" = $invitedVendorsInitialStatus
+            "maxNumInvitedVendors" = $maxNumInvitedVendors
+            "provisioningType" = $provisioningType
+            "username" = $userName
+            "groups" = $groups
+            "comments" = $comments
+            "applications" = $applications
+            "pvwaApplications" = $pvwaApplications
+        }
+
         switch ($PSCmdlet.ParameterSetName) {
+
             'Status' {
                 $url = "$url/$VendorId/status"
                 $body = $Status | ConvertTo-Json
