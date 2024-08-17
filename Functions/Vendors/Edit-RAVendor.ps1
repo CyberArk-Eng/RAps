@@ -93,59 +93,59 @@ function Edit-RAVendor {
         [Parameter(
             Mandatory,
             ParameterSetName = 'Vendor',
-            HelpMessage = 'All vendor properties must be provided.'
+            HelpMessage = 'Specify the username.'
         )]
         [Parameter(
             Mandatory,
             ParameterSetName = 'ByPhonenumber',
-            HelpMessage = 'All vendor properties must be provided.'
+            HelpMessage = 'Specify the username.'
         )]
         $userName,
 
         [Parameter(
             Mandatory,
             ParameterSetName = 'Vendor',
-            HelpMessage = 'All vendor properties must be provided.'
+            HelpMessage = 'Specify the groups the vendor should be a member of.'
         )]
         [Parameter(
             Mandatory,
             ParameterSetName = 'ByPhonenumber',
-            HelpMessage = 'All vendor properties must be provided.'
+            HelpMessage = 'Specify the groups the vendor should be a member of.'
         )]
         [string[]]$groups,
 
         [Parameter(
             Mandatory,
             ParameterSetName = 'Vendor',
-            HelpMessage = 'All vendor properties must be provided.'
+            HelpMessage = 'Add a comment.'
         )]
         [Parameter(
             Mandatory,
             ParameterSetName = 'ByPhonenumber',
-            HelpMessage = 'All vendor properties must be provided.'
+            HelpMessage = 'Add a comment.'
         )]
         $comments = "",
 
         [Parameter(
             Mandatory,
             ParameterSetName = 'Vendor',
-            HelpMessage = 'All vendor properties must be provided.'
+            HelpMessage = 'Specify the applications the vendor should have access to.'
         )]
         [Parameter(
             Mandatory,
             ParameterSetName = 'ByPhonenumber',
-            HelpMessage = 'All vendor properties must be provided.'
+            HelpMessage = 'Specify the applications the vendor should have access to.'
         )]
         [hashtable[]]$applications,
 
         [Parameter(
             Mandatory,
             ParameterSetName = 'Vendor',
-            HelpMessage = 'All vendor properties must be provided.'
+            HelpMessage = 'Specify if the vendor should have access to PVWA applications.'
         )]
         [Parameter(
             ParameterSetName = 'ByPhonenumber',
-            HelpMessage = 'All vendor properties must be provided.'
+            HelpMessage = 'Specify if the vendor should have access to PVWA applications.'
         )]
         [bool]$pvwaApplications = $true,
 
@@ -160,7 +160,7 @@ function Edit-RAVendor {
         [Parameter(
             Mandatory,
             ParameterSetName = 'ByPhonenumber',
-            HelpMessage = 'The updated status of the vendors account.'
+            HelpMessage = 'Specify the vendors phonenumber.'
         )]
         [string]$phoneNumber
     )
