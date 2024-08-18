@@ -53,7 +53,7 @@ function Edit-VendorManagerPermission {
             Mandatory,
             HelpMessage = 'Specify if the user should be able to invite vendors to use web apps.'
         )]
-        [bool]$canInviteToWebApps = $false,
+        [bool]$canInviteToWebApps,
 
         [Parameter(
             HelpMessage = 'Specify the group ids the user should be a member of.'
@@ -80,7 +80,7 @@ function Edit-VendorManagerPermission {
             Mandatory,
             HelpMessage = 'Specify if a user can delegate permissions to external managers.'
         )]
-        [bool]$canDelegatePermissionsToExternalManagers = $false,
+        [bool]$canDelegatePermissionsToExternalManagers,
 
         [Parameter(
             Mandatory,
@@ -92,13 +92,13 @@ function Edit-VendorManagerPermission {
             Mandatory,
             HelpMessage = 'Specify if the user can invite to all groups.'
         )]
-        [bool]$canInviteToAllGroups = $false,
+        [bool]$canInviteToAllGroups,
 
         [Parameter(
             Mandatory,
             HelpMessage = 'Specify if the user can invite to all apps.'
         )]
-        [bool]$canInviteToAllApps = $false
+        [bool]$canInviteToAllApps
     )
 
     begin {
