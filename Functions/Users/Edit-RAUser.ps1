@@ -19,6 +19,7 @@ function Edit-RAUser {
         )]
         [ValidateSet('Deactivated', 'Activated')]
         [string]$Status,
+        
         [Parameter(
             Mandatory,
             ParameterSetName = 'Role', 
