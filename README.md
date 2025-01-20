@@ -1,6 +1,8 @@
 # RAps
 This repository contains functions to leverage the CyberArk Remote Access REST API. First and foremost it is noteworthy to mention the 'New-RAToken' function which provides and easy-to-use option of retrieving/creating a temporary API token to authenticate to Remote Access.
 
+The original module AleroPS was created by Alexander Piepenhagen, and we have simply edited it to fit the increased numbers of datacenters and fixed some errors. RAps build on the original module, expanding support and refactoring some of the code to introduce new features.
+
 ## New-RAToken
 This function uses three classes which are named and represent the three parts of creating a JWT: Header, Claim set and Signature. The signature class requires the OpenSSL library in order to sign end encrypt the private key of the dedicated Remote Access service account. It is therefore necessary that the PowerShell console has OpenSSL installed. Here I connect a useful link to [install OpenSSL for PowerShell](https://adamtheautomator.com/install-openssl-powershell/). Additionally, it is possible to return the token as a secure string.
 
