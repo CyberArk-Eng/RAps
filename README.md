@@ -19,11 +19,14 @@ Import-Module -Name RAps
 
 ### Create JSON Web Token
 ```PowerShell
-$auth = New-RAToken -Path .\11eb29d[...]c2051.json -Datacenter alero.io -TenantID 11eb0700[...]25fb604 -AsSecureString
+$auth = New-RAToken -Path .\11eb29d[...]c2051.json -TenantID 11eb0700[...]25fb604
+
 ```
+
+The improvements from the original module includes extracting the datacenter from the JSON file, and creating a session variable for the authentication token. This means you can run any subsequent cmd-let without having to define the authentication token in the command itself.
 
 ### Run any further command
 This command will return all existing Remote Access groups.
 ```PowerShell
-Get-RAGroups -Authn $auth -Search "*"
+Get-RAGroups -Search "*"
 ```
