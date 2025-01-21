@@ -19,13 +19,13 @@
     GUID              = '290185f6-0aa1-4e4f-b3b5-349649855326'
 
     # Author of this module
-    Author            = 'Alexander Piepenhagen'
+    Author            = 'psPete, Slasky, Alexander Piepenhagen'
 
     # Company or vendor of this module
-    CompanyName       = 'Alexander Piepenhagen'
+    CompanyName       = ''
 
     # Copyright statement for this module
-    Copyright         = '(c) Alexander Piepenhagen. All rights reserved.'
+    Copyright         = '(c)All rights reserved.'
 
     # Description of the functionality provided by this module
     Description       = 'Module for REST API automation of CyberArk Remote Access.'
@@ -119,7 +119,7 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags       = @('CyberArk', 'Alero', 'Remote Access')
+            Tags       = @('CyberArk', 'Alero', 'Remote Access','Vendor PAM')
 
             # A URL to the license for this module.
             LicenseUri = 'https://github.com/CyberArk-Eng/RAps/blob/main/LICENSE'
