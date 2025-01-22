@@ -119,7 +119,7 @@
         PSData = @{
 
             # Tags applied to this module. These help with module discovery in online galleries.
-            Tags       = @('CyberArk', 'Alero', 'Remote Access','VendorPAM')
+            Tags       = @('CyberArk', 'Alero', 'RemoteAccess','VendorPAM')
 
             # A URL to the license for this module.
             LicenseUri = 'https://github.com/CyberArk-Eng/RAps/blob/main/LICENSE'
