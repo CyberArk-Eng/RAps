@@ -10,13 +10,6 @@ function New-RAToken {
         )]
         [System.IO.FileInfo]$Path,
 
-        #[Parameter(
-            #Mandatory,
-            #HelpMessage = 'Select the datacenter of your Alero instance.'
-        #)]
-        #[ValidateSet('alero.io', 'alero.eu', 'ca.alero.io', 'au.alero.io', 'uk.alero.io', 'in.alero.io', 'sg.alero.io', 'ae.alero.io')]
-        #[string]$Datacenter,
-
         [Parameter(
             Mandatory,
             HelpMessage = 'Enter the ID your company in Alero.'
@@ -31,6 +24,7 @@ function New-RAToken {
         Write-Verbose -Message 'Retrieving content from the Remote Access JSON file.'
         $authenticationFile = Get-Content -Path $Path | ConvertFrom-Json
         Write-Verbose -Message 'Extracting datacenter from JSON file'
+        #$Datacenter = (($authenticationFile.discoveryURI.Split("/"))[2]).replace("auth.","")
         $Datacenter = (($authenticationFile.discoveryURI.Split("/"))[2]).replace("auth.","")
         Write-Verbose -Message 'Creating the JWT Header.'
         $jwtHeader = [JwtHeader]::new().Create()

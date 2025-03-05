@@ -56,65 +56,14 @@
 
             $domain = $decodedDomain.split('/')[2]
 
-            switch -Wildcard ($domain) {
-
-                auth.alero.eu {
-
-                    $apiURL = 'api.alero.eu'
-
-                }
-
-                auth.alero.io {
-
-                    $apiURL = 'api.alero.io'
-
-                }
-
-                auth.ca.alero.io {
-
-                    $apiURL = 'api.ca.alero.io'
-
-                }
-
-                auth.au.alero.io {
-
-                    $apiURL = 'api.au.alero.io'
-
-                }
-
-                auth.uk.alero.io {
-
-                    $apiURL = 'api.uk.alero.io'
-
-                }
-
-                auth.in.alero.io {
-
-                    $apiURL = 'api.in.alero.io'
-
-                }
-
-                auth.sg.alero.io {
-
-                    $apiURL = 'api.sg.alero.io'
-
-                }
-
-                auth.ae.alero.io {
-
-                    $apiURL = 'api.ae.alero.io'
-
-                }
-            }
-
+            $apiURL = $domain.replace("auth","api")
+            
             return $apiURL
 
         }
     }
 
     Process {
-        #$plainAuthn = ([System.Runtime.InteropServices.Marshal]::PtrToStringAuto([System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($access_token)))
-
         $decodedDomain = Parse-JWTtoken -token $access_token | Select-Object -ExpandProperty iss
 
         $apiURL = Extract-DomainFromToken -decodedDomain $decodedDomain
@@ -123,5 +72,4 @@
     End {
         return $apiURL
     }
-
 }
