@@ -47,7 +47,7 @@ function New-RAToken {
             if ($null -ne $response) {
                 Write-Verbose -Message 'Returning the access token.'
                 $Script:WebSession = $RAPsSession
-                $Script:ApiURL = $response.access_token | Get-ApiUrl
+                $Script:ApiURL = (($authenticationFile.discoveryURI.Split("/"))[2]).replace("auth","api") #$response.access_token | Get-ApiUrl
                 $token = $response.access_token
                 $Authentication = 'Bearer'
                 $Script:ContentType = 'application/json'
