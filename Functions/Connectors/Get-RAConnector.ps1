@@ -15,7 +15,14 @@ function Get-RAConnector {
 
     process {
         $url = "https://$($Script:ApiURL)/v2-edge/connectors/$siteID"
-        $result = Invoke-RestMethod -Method Get -Uri $url -WebSession $Script:WebSession
+
+        $restCall = @{
+            'Method'      = 'Get'
+            'Uri'         = $url
+            'WebSession'  = $Script:WebSession
+        }
+
+        $result = Invoke-RestMethod @restCall
     }
 
     end {
