@@ -63,7 +63,7 @@ function New-RAToken {
             if ($authenticationFile.TokenEndpoint -in "",$null) {
                 
                 Write-Warning "The RAps module does no longer support using private keys for JWT signing. Use the Client ID and secret option for the service account instead."
-                Write-Verbose "The reason behing ended support is that the JWT signing issues the JWT 2550 years into the future."
+                Write-Verbose "The reason behing ended support is that the JWT signing issues the JWT 5550 years into the future."
                 #Write-Verbose -Message 'Extracting datacenter from JSON file'
                 #$Datacenter = (($authenticationFile.discoveryURI.Split("/"))[2]).replace("auth.","")
                 #Write-Verbose -Message 'Creating the JWT Header.'
