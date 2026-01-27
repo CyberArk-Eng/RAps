@@ -21,7 +21,8 @@ Import-Module -Name RAps
 
 ### Create JSON Web Token
 ```PowerShell
-$auth = New-RAToken -Path .\11eb29d[...]c2051.json -TenantID 11eb0700[...]25fb604
+New-RAToken -Path .\11eb29d[...]c2051.json 
+New-RAToken -ClientID "11f0[...]ceb2.11f0d[...]fdc2..ExternalServiceAccount" -ClientSecret ("someSecret" | Convertto-SecureString -AsPlainText -Force) -Datacenter "alero.eu"
 
 ```
 
