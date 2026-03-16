@@ -174,9 +174,30 @@ function Edit-RAVendor {
 
     process {
 
+        if ($accessStartDate.ToString().Length -eq 13) {
+
+            $accessStartDate = $accessStartDate
+        }
+
+        else {
+
+            $accessStartDate = ([DateTimeOffset]$accessStartDate).ToUnixTimeMilliseconds()
+        }
+
+          if ($accessEndDate.ToString().Length -eq 13) {
+
+            $accessEndDate = $accessEndDate
+        }
+
+        else {
+
+            $accessEndDate = ([DateTimeOffset]$accessEndDate).ToUnixTimeMilliseconds()
+        }
+
+
         $VendorUpdateRequest = [ordered]@{
-            "accessStartDate"= ([DateTimeOffset]$accessStartDate).ToUnixTimeMilliseconds()
-            "accessEndDate"= ([DateTimeOffset]$accessEndDate).ToUnixTimeMilliseconds()
+            "accessStartDate"= $accessStartDate
+            "accessEndDate"= $accessEndDate
             "canInvite"= $canInvite
             "invitedVendorsInitialStatus" = $invitedVendorsInitialStatus
             "maxNumInvitedVendors" = $maxNumInvitedVendors
